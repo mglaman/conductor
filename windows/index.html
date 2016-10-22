@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Conductor - the Composer UI</title>
+	<link href="../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+	<link href="../css/composer-gui.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="flex flex--column">
+	<div class="flex flex--column" style="flex: 1; padding: 0 1.25rem 1rem;">
+		<h1>Composer GUI</h1>
+		<div class="flex flex--column main__actions">
+			<button id="open-project"><i class="fa fa-folder-open"></i> Open new project</button>
+			<button id="new-project"><i class="fa fa-plus-circle"></i> Create new project</button>
+			<button id="open-settings"><i class="fa fa-cog"></i> Settings</button>
+		</div>
+	</div>
+	<details class="flex flex--column main__projects-list" open>
+		<summary>Recent projects</summary>
+		<ul id="project-list">
+		</ul>
+	</details>
+</div>
+</body>
+
+<script>
+	// You can also require other files to run in this process
+	require('./mainWindow.js')
+</script>
+</html>

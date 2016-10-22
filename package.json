@@ -1,0 +1,37 @@
+{
+  "name": "conductor",
+  "version": "0.1.0",
+  "description": "A Composer user interface",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mglaman/conductor.git"
+  },
+  "keywords": [
+    "composer",
+    "php"
+  ],
+  "author": "Matt Glaman",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mglaman/conductor/issues"
+  },
+  "homepage": "https://github.com/mglaman/conductor",
+  "devDependencies": {
+    "electron-prebuilt": "^1.2.0",
+    "autoprefixer": "^6.0.3",
+    "grunt": "^1.0.1",
+    "grunt-contrib-clean": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-sass": "^1.0.0",
+    "grunt-scss-lint": "^0.3.8",
+    "load-grunt-tasks": "^3.4.0"
+  },
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "getcomposer": "^1.3.2"
+  }
+}

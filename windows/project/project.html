@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Conductor - the Composer UI</title>
+	<link href="../../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/composer-gui.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="flex flex--row flex--grow">
+	<div class="flex flex--column project__sidebar" style="flex: 0 0 35%; max-width: 35%;">
+		<details open>
+			<summary>Composer</summary>
+			<ul>
+				<li id="project-composer-json">composer.json</li>
+				<li id="project-composer-lock" style="display: none;">composer.lock</li>
+			</ul>
+		</details>
+		<details open>
+			<summary>Requirements</summary>
+			<ul class="project__dependencies-list" id="project-dependencies"></ul>
+		</details>
+		<details>
+			<summary>Developer Requirements</summary>
+			<ul class="project__dependencies-list" id="project-dev-dependencies"></ul>
+		</details>
+	</div>
+	<div class="flex flex--column project__information"  style="flex: 1">
+		<div class="flex flex--row project__title">
+			<h1 id="project-name"></h1>
+		</div>
+		<p id="project-description"></p>
+		<p id="project-url"></p>
+		<div class="flex flex--row project__actions">
+			<button class="flex" id="action-composer-install">Install <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>
+			<button class="flex" id="action-composer-update">Update <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>
+			<button class="flex" id="action-composer-validate">Validate <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>
+			<!--<button class="flex" id="action-composer-add">Add <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>-->
+			<!--<button class="flex" id="action-composer-remove">Remove <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>-->
+		</div>
+		<textarea title="Composer output" class="project__output" id="composer-output" disabled></textarea>
+	</div>
+</div>
+</body>
+
+<script>
+	require('./projectWindow.js')
+</script>
+</html>
