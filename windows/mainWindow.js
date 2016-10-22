@@ -7,6 +7,10 @@ var openProjectButton = document.getElementById('open-project');
 openProjectButton.addEventListener('click', function () {
 	mainProcess.openDirectory();
 });
+var createProjectButton = document.getElementById('new-project');
+createProjectButton.addEventListener('click', function () {
+	mainProcess.createProject();
+});
 var elProjectList = document.getElementById('project-list');
 var projectList = mainProcess.getProjectList();
 for (var path in projectList) {

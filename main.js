@@ -10,6 +10,7 @@ const Project = require('./models/Project');
 let mainWindow = null;
 let projectWindow = null;
 let packageWindow = null;
+let createWindow = null;
 
 /**
  * @type {Project}
@@ -73,6 +74,19 @@ function createPackageWindow(packageName) {
 		}
 		viewingPackage = null;
 		packageWindow = null;
+	});
+}
+
+function createCreateWindow() {
+	mainWindow.close();
+	createWindow = new BrowserWindow({width: 500, height: 250});
+	createWindow.loadURL(`file://${__dirname}/windows/create/create.html`);
+	// packageWindow.webContents.openDevTools();
+	createWindow.on('closed', () => {
+		activeProject = null;
+		projectWindow = null;
+		createMainWindow();
+		createWindow = null;
 	});
 }
 
@@ -159,3 +173,8 @@ const getViewingPackage = () => {
 	return viewingPackage;
 };
 exports.getViewingPackage = getViewingPackage;
+
+const createProject = () => {
+	createCreateWindow();
+};
+exports.createProject = createProject;

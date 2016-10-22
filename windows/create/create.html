@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Conductor - the Composer UI</title>
+	<link href="../../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+	<link href="../../css/composer-gui.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="flex flex--column flex--grow" style="padding: 2rem;">
+	<div class="flex flex--row">
+		<label for="packageName"><span>Project name:</span></label>
+		<input type="text" name="packageName" id="packageName" />
+	</div>
+	<div class="flex flex--row">
+		<label for="destination"><span>Destination:</span></label>
+		<div>
+			<input type="text" name="destination" id="destination" />
+			<button class="button"><i class="fa fa-search"></i>Browse</button>
+		</div>
+	</div>
+	<div class="flex flex--row">
+		<button>Create project!</button>
+	</div>
+</div>
+</body>
+</html>
