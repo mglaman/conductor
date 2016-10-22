@@ -23,12 +23,10 @@ fs.exists(userData + '/projects.json', (exists) => {
 	if (!exists) {
 		fs.writeFile(userData + '/projects.json', '{}');
 	}
-	else {
-		projectList = require(userData + '/projects.json');
-	}
 });
 
 function createMainWindow() {
+	refreshProjectList();
 	mainWindow = new BrowserWindow({width: 600, height: 300});
 	mainWindow.loadURL(`file://${__dirname}/windows/index.html`);
 	// mainWindow.webContents.openDevTools();
@@ -132,6 +130,15 @@ const getActiveProject = () => {
 	return activeProject;
 };
 exports.getActiveProject = getActiveProject;
+
+const refreshProjectList = () => {
+	try {
+		projectList = require(userData + '/projects.json');
+	} catch (e) {
+		// This has issues when first run, or JSON missing.
+	}
+};
+exports.refreshProjectList = refreshProjectList;
 
 const getProjectList = () => {
 	return projectList;
