@@ -26,6 +26,14 @@ h1, h2, h3, h4, h5, h6,
 p {
   margin-top: 0;
 }
+input {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  border-radius: 0.25rem;
+  border: 1px solid #d5d5d5;
+}
 
 details {
   padding: 0 1rem;
@@ -111,7 +119,7 @@ button {
 	}
   }
 }
-.project__actions {
+.button__actions {
   //flex: 1;
   //align-items: flex-end;
   button {
@@ -152,4 +160,27 @@ button {
 }
 .project__dependencies-list li {
   cursor: pointer;
+}
+
+.window__create-project {
+  .button__actions {
+	margin-top: 1rem;
+  }
+  button {
+	display: block;
+	padding: 0.35rem;
+	background-image: linear-gradient(#fcfcfc, #eee);
+	border: 1px solid #d5d5d5;
+	border-radius: 3px;
+	&:focus {
+	  outline: 0;
+	  border: 1px solid #aaa;
+	}
+	&:hover {
+	  background: darken($dark-gray, .75);
+	}
+  }
+  #project-destination {
+	cursor: pointer;
+  }
 }

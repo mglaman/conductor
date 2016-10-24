@@ -40,7 +40,6 @@ function createMainWindow() {
 function createProjectWindow(folder) {
 	try {
 		activeProject = new Project(folder);
-		mainWindow.close();
 		projectWindow = new BrowserWindow({width: 800, height: 600});
 		projectWindow.loadURL(`file://${__dirname}/windows/project/project.html`);
 		// projectWindow.webContents.openDevTools();
@@ -51,6 +50,7 @@ function createProjectWindow(folder) {
 			createMainWindow();
 		});
 	} catch (e) {
+		console.error(e);
 		dialog.showMessageBox({
 			'type': 'error',
 			'buttons': [],
@@ -79,14 +79,14 @@ function createPackageWindow(packageName) {
 
 function createCreateWindow() {
 	mainWindow.close();
-	createWindow = new BrowserWindow({width: 500, height: 250});
+	createWindow = new BrowserWindow({width: 500, height: 450});
 	createWindow.loadURL(`file://${__dirname}/windows/create/create.html`);
 	// packageWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {
 		activeProject = null;
 		projectWindow = null;
-		createMainWindow();
 		createWindow = null;
+		createMainWindow();
 	});
 }
 
@@ -107,6 +107,14 @@ app.on('activate', function () {
 		createMainWindow()
 	}
 });
+
+exports.fromNewProject = function (folder) {
+	var composerJson = require(folder + '/composer.json');
+	var projectsJson = require(userData + '/projects.json');
+	projectsJson[folder] = composerJson.name;
+	fs.writeFile(userData + '/projects.json', JSON.stringify(projectsJson));
+	// createProjectWindow(folder);
+};
 
 const openDirectory = function () {
 	var folder = dialog.showOpenDialog(mainWindow, {

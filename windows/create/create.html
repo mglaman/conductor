@@ -4,24 +4,32 @@
 	<meta charset="UTF-8">
 	<title>Conductor - the Composer UI</title>
 	<link href="../../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
-	<link href="../../css/composer-gui.css" rel="stylesheet" type="text/css"/>
+	<link href="../../css/conductor.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
-<div class="flex flex--column flex--grow" style="padding: 2rem;">
+<div class="flex flex--column flex--grow window__create-project" style="padding: 1rem;">
 	<div class="flex flex--row">
-		<label for="packageName"><span>Project name:</span></label>
-		<input type="text" name="packageName" id="packageName" />
+		<label for="packageName" class="sr-only"><span>Project name:</span></label>
+		<input type="text" name="packageName" id="packageName" placeholder="vendor/package" style="flex: 1;"/>
 	</div>
 	<div class="flex flex--row">
-		<label for="destination"><span>Destination:</span></label>
-		<div>
-			<input type="text" name="destination" id="destination" />
-			<button class="button"><i class="fa fa-search"></i>Browse</button>
+		<label for="packageName" class="sr-only"><span>Project name:</span></label>
+		<input type="text" name="projectName" id="projectName" placeholder="some-dir" style="flex: 1;"/>
+	</div>
+	<div class="flex flex--row">
+		<label for="destination" class="sr-only"><span>Destination:</span></label>
+		<div class="flex flex--row" style="flex: 1;" id="project-destination">
+			<input type="text" name="destination" id="destination" placeholder="Destination" style="flex: 1;" disabled/>
+			<button class="button">Browse <i class="fa fa-search"></i></button>
 		</div>
 	</div>
-	<div class="flex flex--row">
-		<button>Create project!</button>
+	<div class="flex flex--row button__actions">
+		<button class="flex" id="project-create">Create project! <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>
 	</div>
+	<textarea title="Composer output" class="project__output" id="composer-output" disabled></textarea>
 </div>
+<script>
+	require('./createWindow')
+</script>
 </body>
 </html>

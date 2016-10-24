@@ -30,6 +30,9 @@ let Composer = function(projectPath, appPath) {
 	this.remove = (dependency, opts, callback) => {
 		this._runCommand(bin + ' remove ' + dependency, opts, callback);
 	};
+	this.createProject = (project, destination, opts, callback) => {
+		this._runCommand(bin + ' create-project ' + project + ' ' + destination + ' --stability dev', opts, callback)
+	};
 	this._runCommand = (command, opts, callback) => {
 		opts['cwd'] = this.path;
 		console.log(command);
