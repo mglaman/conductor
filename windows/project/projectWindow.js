@@ -1,3 +1,4 @@
+const utils = require('../../utils/misc');
 const fs = require('fs');
 const electron = require('electron');
 const remote = electron.remote;
@@ -60,7 +61,7 @@ let composerOutputHandler = (ex, stdout, stderr) => {
 	}
 };
 
-document.getElementById('action-composer-install').addEventListener('click', (e) => {
+utils.$onClick('action-composer-install', (e) => {
 	elOutput.value = '';
 	var el = /** @type {Element} */ e.srcElement;
 	var elIcon = el.childNodes[1];
@@ -71,7 +72,8 @@ document.getElementById('action-composer-install').addEventListener('click', (e)
 		elIcon.classList.add('hidden');
 	});
 });
-document.getElementById('action-composer-update').addEventListener('click', (e) => {
+
+utils.$onClick('action-composer-update', (e) => {
 	elOutput.value = '';
 	var el = /** @type {Element} */ e.srcElement;
 	var elIcon = el.childNodes[1];
@@ -82,7 +84,8 @@ document.getElementById('action-composer-update').addEventListener('click', (e) 
 		elIcon.classList.add('hidden');
 	});
 });
-document.getElementById('action-composer-validate').addEventListener('click', (e) => {
+
+utils.$onClick('action-composer-validate', (e) => {
 	elOutput.value = '';
 	var el = /** @type {Element} */ e.srcElement;
 	var elIcon = el.childNodes[1];

@@ -6,7 +6,9 @@ const BrowserWindow = electron.BrowserWindow;
 const dialog = electron.dialog;
 const userData = app.getPath('userData');
 const Project = require('./models/Project');
+const ProjectList = require('./utils/ProjectList');
 
+let projectList = new ProjectList(userData);
 let mainWindow = null;
 let projectWindow = null;
 let packageWindow = null;
@@ -17,16 +19,6 @@ let createWindow = null;
  */
 let activeProject = null;
 let viewingPackage = null;
-let projectList = {};
-
-fs.exists(userData + '/projects.json', (exists) => {
-	if (!fs.existsSync(userData)) {
-		fs.mkdir(userData)
-	}
-	if (!exists) {
-		fs.writeFile(userData + '/projects.json', '{}');
-	}
-});
 
 function createMainWindow() {
 	refreshProjectList();
@@ -157,7 +149,7 @@ exports.getActiveProject = getActiveProject;
 
 const refreshProjectList = () => {
 	try {
-		projectList = require(userData + '/projects.json');
+		projectList.refreshList();
 	} catch (e) {
 		// This has issues when first run, or JSON missing.
 	}

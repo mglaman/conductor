@@ -26,7 +26,7 @@ let Project = function (path) {
 	/**
 	 * @returns {null|Lock}
 	 */
-	this.getLock = () => { return this.lock }
+	this.getLock = () => { return this.lock };
 
 	this.refreshLock = () => {
 		this.lock = null;

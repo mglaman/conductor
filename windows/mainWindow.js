@@ -12,7 +12,7 @@ createProjectButton.addEventListener('click', function () {
 	mainProcess.createProject();
 });
 var elProjectList = document.getElementById('project-list');
-var projectList = mainProcess.getProjectList();
+var projectList = mainProcess.getProjectList().getList();
 for (var path in projectList) {
 	if (!projectList.hasOwnProperty(path)) {
 		continue;

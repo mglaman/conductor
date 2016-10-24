@@ -1,3 +1,4 @@
+const utils = require('../../utils/misc');
 const fs = require('fs');
 const electron = require('electron');
 const remote = electron.remote;
@@ -25,8 +26,8 @@ let composerOutputHandler = (ex, stdout, stderr) => {
 	}
 };
 
-document.getElementById('project-destination').addEventListener('click', projectDestinationBrowse);
-document.getElementById('project-destination').addEventListener('onfocus', projectDestinationBrowse);
+utils.$onClick('project-destination', projectDestinationBrowse);
+utils.$addEventListener('project-destination', 'onfocus', projectDestinationBrowse);
 
 function projectDestinationBrowse() {
 	var folder = dialog.showOpenDialog(thisWindow, {
@@ -38,7 +39,7 @@ function projectDestinationBrowse() {
 	elDestDir.value = folder;
 }
 
-document.getElementById('project-create').addEventListener('click', (e) => {
+utils.$onClick('project-create', (e) => {
 	let packageName = elPackageName.value;
 	let projectDest = elDestDir.value + '/' + elProjectName.value;
 

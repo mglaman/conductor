@@ -99,6 +99,10 @@ button:hover {
   overflow: scroll;
 }
 
+.main__projects-list ::-webkit-details-marker {
+  display: none;
+}
+
 .main__projects-list summary {
   border: 0;
 }
@@ -111,7 +115,7 @@ button:hover {
 
 .main__projects-list ul li {
   display: block;
-  padding: 0.25rem 0.5rem;
+  padding: 0.25rem 0.5rem 0.25rem 0;
   border-bottom: solid 1px #e5e5e5;
 }
 
