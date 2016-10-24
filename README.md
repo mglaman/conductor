@@ -1,4 +1,4 @@
-# Conductor
+# Conductor [![Build Status](https://travis-ci.org/mglaman/conductor.svg?branch=master)](https://travis-ci.org/mglaman/conductor)
 
 A user interface for Composer, the dependency management tool for PHP.
 
