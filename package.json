@@ -4,7 +4,9 @@
   "description": "A Composer user interface",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack": "build -mwl --dir",
+    "dist": "build -mwl"
   },
   "repository": {
     "type": "git",
@@ -20,8 +22,18 @@
     "url": "https://github.com/mglaman/conductor/issues"
   },
   "homepage": "https://github.com/mglaman/conductor",
+  "build": {
+    "appId": "com.mglaman.conductor",
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "win": {
+      "iconUrl": ""
+    }
+  },
   "devDependencies": {
     "electron": "^1.2.0",
+    "electron-builder": "^7.14.2",
     "autoprefixer": "^6.0.3",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
