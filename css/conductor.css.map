@@ -1,6 +1,6 @@
 {
 	"version": 3,
-	"file": "composer-gui.css",
+	"file": "conductor.css",
 	"sources": [
 		"../scss/styles.scss",
 		"../scss/_vars.scss",
