@@ -30,7 +30,7 @@ fs.exists(userData + '/projects.json', (exists) => {
 
 function createMainWindow() {
 	refreshProjectList();
-	mainWindow = new BrowserWindow({width: 600, height: 300});
+	mainWindow = new BrowserWindow({width: 600, height: 250});
 	mainWindow.loadURL(`file://${__dirname}/windows/index.html`);
 	// mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', () => {

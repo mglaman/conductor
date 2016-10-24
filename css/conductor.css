@@ -93,6 +93,16 @@ button:hover {
   margin-bottom: 0.5rem;
 }
 
+.main__projects-list {
+  flex: 1;
+  background: #f5f5f5;
+  overflow: scroll;
+}
+
+.main__projects-list summary {
+  border: 0;
+}
+
 .main__projects-list ul {
   margin: 0;
   padding: 0;
@@ -219,6 +229,27 @@ button:hover {
 
 .window__create-project #project-destination {
   cursor: pointer;
+}
+
+.main__landing {
+  background: linear-gradient(135deg, #3700aa 0%, #4500d4 22%, #6c00e9 57%, #992aff 100%);
+  color: white;
+}
+
+.main__landing button {
+  color: white;
+  font-weight: normal;
+}
+
+.window__main--header {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.window__main--header h1 {
+  margin-bottom: 0;
+  font-weight: normal;
 }
 
 /*# sourceMappingURL=conductor.css.map */
