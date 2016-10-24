@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/mglaman/conductor",
   "devDependencies": {
-    "electron-prebuilt": "^1.2.0",
+    "electron": "^1.2.0",
     "autoprefixer": "^6.0.3",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
