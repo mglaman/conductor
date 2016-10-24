@@ -2,35 +2,39 @@
 
 /**
  *
- * @param {String} path
+ * @param {String} projectPath
+ * @param {String} appPath
  * @constructor
  */
-let Composer = function(path) {
-	this.path = path;
+let Composer = function(projectPath, appPath) {
+	let exec = require('child_process').exec;
+	let bin = appPath + '/composer.phar';
+
+	this.path = projectPath;
 	this.install = (opts, callback) => {
-		opts['cwd'] = this.path;
-		require('child_process').exec('composer install --no-progress', opts, callback);
+		this._runCommand(bin + ' install --no-progress', opts, callback);
 	};
 	this.update = (dependency, opts, callback) => {
-		var command = 'composer update --no-progress';
+		var command = bin + ' update --no-progress';
 		if (typeof dependency === 'string') {
 			command += ' ' + dependency;
 		}
-		opts['cwd'] = this.path;
-		require('child_process').exec(command, opts, callback);
+		this._runCommand(command, opts, callback);
 	};
 	this.validate = (opts, callback) => {
-		opts['cwd'] = this.path;
-		require('child_process').exec('composer validate', opts, callback);
+		this._runCommand(bin + ' validate', opts, callback);
 	};
 	this.show = (dependency, opts, callback) => {
-		opts['cwd'] = this.path;
-		require('child_process').exec('composer show ' + dependency, opts, callback);
+		this._runCommand(bin + ' show ' + dependency, opts, callback);
 	};
 	this.remove = (dependency, opts, callback) => {
-		opts['cwd'] = this.path;
-		require('child_process').exec('composer remove ' + dependency, opts, callback);
+		this._runCommand(bin + ' remove ' + dependency, opts, callback);
 	};
+	this._runCommand = (command, opts, callback) => {
+		opts['cwd'] = this.path;
+		console.log(command);
+		exec(command, opts, callback)
+	}
 };
 Composer.prototype.path = '';
 Composer.prototype.require = (dependency, opts) => {
