@@ -21,4 +21,10 @@ cd conductor
 npm install && npm start
 ```
 
+## Icon license
+
+![Conductor](build/icons/512x512.png)
+
+Conductor: [Created with Baton by Luis Prado from the Noun Project](https://thenounproject.com/term/baton/248063). This icon is licensed as Creative Commons – Attribution (CC BY 3.0)
+
 #### License [MIT](LICENSE.md)

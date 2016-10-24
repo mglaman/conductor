@@ -5,8 +5,8 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "pack": "build -mwl --dir",
-    "dist": "build -mwl"
+    "pack": "build -ml --dir",
+    "dist": "build -ml"
   },
   "repository": {
     "type": "git",
