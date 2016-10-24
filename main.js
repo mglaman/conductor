@@ -19,7 +19,9 @@ let viewingPackage = null;
 let projectList = {};
 
 fs.exists(userData + '/projects.json', (exists) => {
-	console.log(exists);
+	if (!fs.existsSync(userData)) {
+		fs.mkdir(userData)
+	}
 	if (!exists) {
 		fs.writeFile(userData + '/projects.json', '{}');
 	}
