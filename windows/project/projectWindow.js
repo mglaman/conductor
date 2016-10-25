@@ -8,6 +8,7 @@ const Project = require('../../models/Project');
 const Composer = require('../../utils/Composer');
 
 let activeProject = mainProcess.getActiveProject();
+let projectInstalled = activeProject.isInstalled();
 let composer = new Composer(activeProject.getPath(), electron.remote.app.getAppPath());
 
 const renderDependencies = (elId, dev) => {
@@ -38,11 +39,11 @@ if (typeof activeProject.getHomepage() == 'string') {
 	document.getElementById('project-url').textContent = activeProject.getHomepage();
 }
 
-fs.exists(activeProject.getPath() + '/composer.lock', (exists) => {
-	if (exists) {
-		document.getElementById('project-composer-lock').style.display = 'inherit';
-	}
-});
+if (projectInstalled) {
+	document.getElementById('project-composer-lock').classList.remove('hidden');
+	document.getElementById('action-composer-update').classList.remove('hidden');
+}
+
 renderDependencies('project-dependencies');
 renderDependencies('project-dev-dependencies', true);
 
@@ -70,6 +71,9 @@ utils.$onClick('action-composer-install', (e) => {
 	composer.install({}, (ex, stdout, stderr) => {
 		composerOutputHandler(ex, stdout, stderr);
 		elIcon.classList.add('hidden');
+		activeProject.refreshData();
+		projectInstalled = activeProject.isInstalled();
+		thisWindow.reload();
 	});
 });
 
@@ -98,8 +102,14 @@ utils.$onClick('action-composer-validate', (e) => {
 });
 
 document.querySelectorAll('.project__dependencies-list li').forEach(function (e) {
-	e.addEventListener('click', function (eClick) {
-		var packageName = eClick.srcElement.getAttribute('data-package');
-		mainProcess.openPackage(packageName);
-	});
+	if (projectInstalled) {
+		let packageName = e.getAttribute('data-package');
+
+		if (packageName != 'php' || packageName.indexOf('ext-') > -1) {
+			e.addEventListener('click', function (eClick) {
+				var packageName = eClick.srcElement.getAttribute('data-package');
+				mainProcess.openPackage(packageName);
+			});
+		}
+	}
 });

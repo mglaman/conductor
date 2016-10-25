@@ -43,6 +43,10 @@ let Project = function (path) {
 		}
 	};
 
+	this.isInstalled = () => {
+		return this.lock !== null;
+	};
+
 	this.refreshData = () => {
 		this.json = require(this.path + '/composer.json');
 		this.refreshLock();

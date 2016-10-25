@@ -20,9 +20,11 @@ let createWindow = null;
 let activeProject = null;
 let viewingPackage = null;
 
+
+
 function createMainWindow() {
 	refreshProjectList();
-	mainWindow = new BrowserWindow({width: 600, height: 250});
+	mainWindow = new BrowserWindow({width: 600, height: 450});
 	mainWindow.loadURL(`file://${__dirname}/windows/index.html`);
 	// mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', () => {
@@ -71,7 +73,7 @@ function createPackageWindow(packageName) {
 
 function createCreateWindow() {
 	mainWindow.close();
-	createWindow = new BrowserWindow({width: 500, height: 450});
+	createWindow = new BrowserWindow({width: 600, height: 450});
 	createWindow.loadURL(`file://${__dirname}/windows/create/create.html`);
 	// packageWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {

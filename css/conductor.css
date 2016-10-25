@@ -256,4 +256,8 @@ button:hover {
   font-weight: normal;
 }
 
+.hidden {
+  display: none !important;
+}
+
 /*# sourceMappingURL=conductor.css.map */
