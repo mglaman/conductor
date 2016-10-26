@@ -33,12 +33,13 @@
       "category": "public.app-category.developer-tools"
     },
     "win": {
-      "remoteReleases": "https://github.com/mglaman/conductor",
       "publish": ["github"]
     },
     "linux": {
       "publish": ["github"],
-      "target": ["deb", "AppImage"]
+      "target": ["deb", "AppImage"],
+      "category": "Development",
+      "synopsis": "A Composer user interface"
     }
   },
   "devDependencies": {
