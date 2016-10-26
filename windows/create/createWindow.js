@@ -7,7 +7,7 @@ const thisWindow = remote.getCurrentWindow();
 const mainProcess = remote.require('./main');
 
 const Composer = require('../../utils/Composer');
-let composer = new Composer(electron.remote.app.getAppPath(), electron.remote.app.getAppPath());
+let composer = new Composer(electron.remote.app.getAppPath());
 let elDestDir = document.getElementById('destination');
 let elPackageName = document.getElementById('packageName');
 let elProjectName = document.getElementById('projectName');

@@ -6,9 +6,14 @@
  * @param {String} appPath
  * @constructor
  */
-let Composer = function(projectPath, appPath) {
-	let exec = require('child_process').exec;
-	let bin = appPath + '/composer.phar';
+let Composer = function(projectPath) {
+	let bin = null;
+
+	if (!this.isAsar) {
+		bin = process.cwd() + '/composer.phar';
+	} else {
+		bin = this.resourcesPath + '/composer.phar';
+	}
 
 	this.path = projectPath;
 	this.install = (opts, callback) => {
@@ -36,16 +41,13 @@ let Composer = function(projectPath, appPath) {
 	this._runCommand = (command, opts, callback) => {
 		opts['cwd'] = this.path;
 		console.log(command);
-		exec(command, opts, callback)
+		this.exec(command, opts, callback)
 	}
 };
+Composer.prototype.exec = require('child_process').exec;
 Composer.prototype.path = '';
-Composer.prototype.require = (dependency, opts) => {
-
-};
-Composer.prototype.remove = (dependency, opts) => {
-
-};
+Composer.prototype.isAsar = process.mainModule.filename.indexOf('app.asar') !== -1;
+Composer.prototype.resourcesPath = process.resourcesPath;
 Composer.prototype.cleanUpOutput = (output) => {
 	if (output.length > 0 && typeof output === 'string') {
 		return output.replace('You are running composer with xdebug enabled. This has a major impact on runtime performance. See https://getcomposer.org/xdebug', '');

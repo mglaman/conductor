@@ -9,7 +9,7 @@ const Composer = require('../../utils/Composer');
 
 let activeProject = mainProcess.getActiveProject();
 let projectInstalled = activeProject.isInstalled();
-let composer = new Composer(activeProject.getPath(), electron.remote.app.getAppPath());
+let composer = new Composer(activeProject.getPath());
 
 const renderDependencies = (elId, dev) => {
 	var elDependencies = document.getElementById(elId);

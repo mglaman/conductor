@@ -7,7 +7,7 @@ const thisWindow = remote.getCurrentWindow();
 const Composer = require('../../utils/Composer');
 
 let currentPackage = mainProcess.getViewingPackage();
-let composer = new Composer(mainProcess.getActiveProject().getPath(), electron.remote.app.getAppPath());
+let composer = new Composer(mainProcess.getActiveProject().getPath());
 thisWindow.setTitle(currentPackage.json.name);
 
 let $ = document;
