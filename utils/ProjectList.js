@@ -6,6 +6,14 @@
  * @constructor
  */
 let ProjectList = function (userDataDir) {
+	// Ensure that the user directory exists and we have empty file.
+	if (!this.filesystem.existsSync(userDataDir + '/projects.json')) {
+		if (!this.filesystem.existsSync(userDataDir)) {
+			this.filesystem.mkdir(userDataDir)
+		}
+		this.filesystem.writeFile(userDataDir + '/projects.json', '{}');
+	}
+
 	this.userDataDir = userDataDir;
 
 	this.setList = (list) => {
@@ -14,18 +22,12 @@ let ProjectList = function (userDataDir) {
 	this.getList = () => { return this.list; };
 
 	this.refreshList = () => {
-		this.setList(require(this.userDataDir + '/projects.json'));
+		if (this.filesystem.existsSync(this.userDataDir + '/projects.json')) {
+			this.setList(require(this.userDataDir + '/projects.json'));
+		} else {
+			this.setList({});
+		}
 	};
-
-	// Ensure that the user directory exists and we have empty file.
-	this.filesystem.exists(userDataDir + '/projects.json', (exists) => {
-		if (!this.filesystem.existsSync(userDataDir)) {
-			this.filesystem.mkdir(userDataDir)
-		}
-		if (!exists) {
-			this.filesystem.writeFile(userDataDir + '/projects.json', '{}');
-		}
-	});
 
 	this.refreshList();
 };
