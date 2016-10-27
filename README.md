@@ -1,4 +1,4 @@
-# Conductor [![Build Status](https://travis-ci.org/mglaman/conductor.svg?branch=master)](https://travis-ci.org/mglaman/conductor) [![Build status](https://ci.appveyor.com/api/projects/status/anprg1634xsqm7g3?svg=true)](https://ci.appveyor.com/project/mglaman/conductor)
+# ![Conductor](build/icons/24x24.png) Conductor [![Build Status](https://travis-ci.org/mglaman/conductor.svg?branch=master)](https://travis-ci.org/mglaman/conductor) [![Build status](https://ci.appveyor.com/api/projects/status/anprg1634xsqm7g3?svg=true)](https://ci.appveyor.com/project/mglaman/conductor)
 
 
 A user interface for Composer, the dependency management tool for PHP.
@@ -24,7 +24,7 @@ npm install && npm start
 
 ## Icon license
 
-![Conductor](build/icons/512x512.png)
+![Conductor](build/icons/128x128.png)
 
 Conductor: [Created with Baton by Luis Prado from the Noun Project](https://thenounproject.com/term/baton/248063). This icon is licensed as Creative Commons – Attribution (CC BY 3.0)
 

@@ -49,9 +49,9 @@ renderDependencies('project-dev-dependencies', true);
 
 let elOutput = document.getElementById('composer-output');
 
-let composerOutputHandler = (ex, stdout, stderr) => {
-	if (ex !== null) {
-		elOutput.value = composer.cleanUpOutput(ex);
+let composerOutputHandler = (error, stdout, stderr) => {
+	if (error !== null) {
+		elOutput.value = composer.cleanUpOutput(error);
 	} else {
 		if (stdout.length > 0) {
 			elOutput.value += composer.cleanUpOutput(stdout);
@@ -68,12 +68,15 @@ utils.$onClick('action-composer-install', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.install({}, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.install({}, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 		activeProject.refreshData();
 		projectInstalled = activeProject.isInstalled();
-		thisWindow.reload();
+
+		if (error === null) {
+			thisWindow.reload();
+		}
 	});
 });
 
@@ -83,8 +86,8 @@ utils.$onClick('action-composer-update', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.update(null, {}, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.update(null, {}, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 	});
 });
@@ -95,8 +98,8 @@ utils.$onClick('action-composer-validate', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.validate({}, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.validate({}, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 	});
 });

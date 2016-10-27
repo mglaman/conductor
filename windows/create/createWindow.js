@@ -13,9 +13,9 @@ let elPackageName = document.getElementById('packageName');
 let elProjectName = document.getElementById('projectName');
 let elOutput = document.getElementById('composer-output');
 
-let composerOutputHandler = (ex, stdout, stderr) => {
-	if (ex !== null) {
-		elOutput.value = composer.cleanUpOutput(ex);
+let composerOutputHandler = (error, stdout, stderr) => {
+	if (error !== null) {
+		elOutput.value = composer.cleanUpOutput(error);
 	} else {
 		if (stdout.length > 0) {
 			elOutput.value += composer.cleanUpOutput(stdout);
@@ -50,8 +50,8 @@ utils.$onClick('project-create', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.createProject(packageName, projectDest, opts, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.createProject(packageName, projectDest, opts, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 		if (fs.existsSync(projectDest + '/composer.json')) {
 			mainProcess.fromNewProject(projectDest);

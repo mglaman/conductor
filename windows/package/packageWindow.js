@@ -19,9 +19,9 @@ $.getElementById('package-description').textContent = currentPackage.json.descri
 
 let elOutput = document.getElementById('composer-output');
 
-let composerOutputHandler = (ex, stdout, stderr) => {
-	if (ex !== null) {
-		elOutput.value = composer.cleanUpOutput(ex);
+let composerOutputHandler = (error, stdout, stderr) => {
+	if (error !== null) {
+		elOutput.value = composer.cleanUpOutput(error);
 	} else {
 		if (stdout.length > 0) {
 			elOutput.value += composer.cleanUpOutput(stdout);
@@ -38,8 +38,8 @@ utils.$onClick('action-composer-update', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.update(currentPackage.json.name, {}, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.update(currentPackage.json.name, {}, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 	});
 });
@@ -49,8 +49,8 @@ utils.$onClick('action-composer-remove', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.remove(currentPackage.json.name, {}, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.remove(currentPackage.json.name, {}, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 	});
 });
@@ -60,8 +60,8 @@ utils.$onClick('action-composer-show', (e) => {
 	var elIcon = el.childNodes[1];
 
 	elIcon.classList.remove('hidden');
-	composer.show(currentPackage.json.name, {}, (ex, stdout, stderr) => {
-		composerOutputHandler(ex, stdout, stderr);
+	composer.show(currentPackage.json.name, {}, (error, stdout, stderr) => {
+		composerOutputHandler(error, stdout, stderr);
 		elIcon.classList.add('hidden');
 	});
 });
