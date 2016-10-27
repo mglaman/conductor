@@ -38,6 +38,11 @@ function createProjectWindow(folder) {
 		projectWindow.loadURL(`file://${__dirname}/windows/project/project.html`);
 		// projectWindow.webContents.openDevTools();
 
+		projectWindow.on('show', () => {
+			if (mainWindow !== null) {
+				mainWindow.close();
+			}
+		});
 		projectWindow.on('closed', () => {
 			activeProject = null;
 			projectWindow = null;
