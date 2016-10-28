@@ -2,12 +2,13 @@ const fs = require('fs');
 const electron = require('electron');
 
 const app = electron.app;
-const BrowserWindow = electron.BrowserWindow;
 const dialog = electron.dialog;
 const userData = app.getPath('userData');
 const Project = require('./models/Project');
 const ProjectList = require('./utils/ProjectList');
+const BrowserWindowFactory = require('./utils/BrowserWindowFactory');
 
+let windowIcon = __dirname + '/build/icons/icon.svg';
 let projectList = new ProjectList(userData);
 let mainWindow = null;
 let projectWindow = null;
@@ -24,8 +25,7 @@ let viewingPackage = null;
 
 function createMainWindow() {
 	refreshProjectList();
-	mainWindow = new BrowserWindow({width: 600, height: 450});
-	mainWindow.loadURL(`file://${__dirname}/windows/index.html`);
+	mainWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/index.html`, 600, windowIcon);
 	// mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', () => {
 		mainWindow = null
@@ -34,8 +34,7 @@ function createMainWindow() {
 function createProjectWindow(folder) {
 	try {
 		activeProject = new Project(folder);
-		projectWindow = new BrowserWindow({width: 800, height: 600});
-		projectWindow.loadURL(`file://${__dirname}/windows/project/project.html`);
+		projectWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/project/project.html`, 800, windowIcon);
 		// projectWindow.webContents.openDevTools();
 
 		projectWindow.on('show', () => {
@@ -64,8 +63,7 @@ function createPackageWindow(packageName) {
 		packageWindow = null;
 	}
 	viewingPackage = activeProject.getLock().getPackage(packageName);
-	packageWindow = new BrowserWindow();
-	packageWindow.loadURL(`file://${__dirname}/windows/package/package.html`);
+	packageWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/package/package.html`, 800, windowIcon);
 	// packageWindow.webContents.openDevTools();
 	packageWindow.on('closed', () => {
 		if (activeProject !== null) {
@@ -78,8 +76,7 @@ function createPackageWindow(packageName) {
 
 function createCreateWindow() {
 	mainWindow.close();
-	createWindow = new BrowserWindow({width: 600, height: 450});
-	createWindow.loadURL(`file://${__dirname}/windows/create/create.html`);
+	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/create/create.html`, 600, windowIcon);
 	// packageWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {
 		activeProject = null;
