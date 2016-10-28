@@ -3,6 +3,8 @@ const electron = require('electron');
 
 const app = electron.app;
 const dialog = electron.dialog;
+const menu = electron.Menu;
+const shell = electron.shell;
 const userData = app.getPath('userData');
 const Project = require('./models/Project');
 const ProjectList = require('./utils/ProjectList');
@@ -24,7 +26,6 @@ let viewingPackage = null;
 
 
 function createMainWindow() {
-	refreshProjectList();
 	mainWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/index.html`, 600, windowIcon);
 	// mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', () => {
@@ -45,7 +46,9 @@ function createProjectWindow(folder) {
 		projectWindow.on('closed', () => {
 			activeProject = null;
 			projectWindow = null;
-			createMainWindow();
+			if (mainWindow === null) {
+				createMainWindow();
+			}
 		});
 	} catch (e) {
 		console.error(e);
@@ -79,6 +82,7 @@ function createCreateWindow() {
 	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/create/create.html`, 600, windowIcon);
 	// packageWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {
+		refreshProjectList();
 		activeProject = null;
 		projectWindow = null;
 		createWindow = null;
@@ -89,7 +93,101 @@ function createCreateWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createMainWindow);
+app.on('ready', () => {
+	refreshProjectList();
+
+	var template = [
+		{
+			label: 'Projects',
+			submenu: [],
+		},
+		{
+			label: 'Help',
+			role: 'help',
+			submenu: [
+				{
+					label: 'Documentation',
+					click() {
+						shell.openExternal('https://github.com/mglaman/conductor/wiki')
+					}
+				},
+				{
+					label: 'Report an issue',
+					click() {
+						shell.openExternal('https://github.com/mglaman/conductor/issues')
+					}
+				}
+			],
+		}
+	];
+
+	let menuProjectList = projectList.getList();
+	for (var path in menuProjectList) {
+		if (!menuProjectList.hasOwnProperty(path)) {
+			continue;
+		}
+		let thisPath = path;
+		template[0].submenu.push({
+			label: menuProjectList[path],
+			click() {
+				openProject(thisPath)
+			}
+		});
+	}
+
+
+	if (process.platform == 'darwin') {
+		var name = 'Conductor';
+		template.unshift({
+			label: name.upp,
+			submenu: [
+				{
+					label: 'About ' + name,
+					role: 'about'
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'Services',
+					role: 'services',
+					submenu: []
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'Hide ' + name,
+					accelerator: 'Command+H',
+					role: 'hide'
+				},
+				{
+					label: 'Hide Others',
+					accelerator: 'Command+Alt+H',
+					role: 'hideothers'
+				},
+				{
+					label: 'Show All',
+					role: 'unhide'
+				},
+				{
+					type: 'separator'
+				},
+				{
+					label: 'Quit',
+					accelerator: 'Command+Q',
+					click() {
+						app.quit();
+					}
+				},
+			]
+		});
+	}
+
+	var appMenu = menu.buildFromTemplate(template);
+	menu.setApplicationMenu(appMenu);
+	createMainWindow();
+});
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
