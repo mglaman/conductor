@@ -9,7 +9,13 @@ Conductor provides a user interface for creating and managing PHP applications u
 
 ## To Use
 
-Currently there are no compiled builds. To use and preview, follow these instructions while still in early development.
+### Releases
+
+Compiled builds are available in the list of [releases](https://github.com/mglaman/conductor/releases/latest).
+
+### Developers
+
+To use and preview, follow these instructions while still in early development.
 
 To clone and run this repository you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
