@@ -3,15 +3,13 @@ const electron = require('electron');
 
 const app = electron.app;
 const dialog = electron.dialog;
-const menu = electron.Menu;
-const shell = electron.shell;
-const userData = app.getPath('userData');
 const Project = require('./models/Project');
 const ProjectList = require('./utils/ProjectList');
 const BrowserWindowFactory = require('./utils/BrowserWindowFactory');
+const AppMenu = require('./utils/AppMenu');
 
 let windowIcon = __dirname + '/build/icons/icon.svg';
-let projectList = new ProjectList(userData);
+let projectList = new ProjectList();
 let mainWindow = null;
 let projectWindow = null;
 let packageWindow = null;
@@ -96,96 +94,8 @@ function createCreateWindow() {
 app.on('ready', () => {
 	refreshProjectList();
 
-	var template = [
-		{
-			label: 'Projects',
-			submenu: [],
-		},
-		{
-			label: 'Help',
-			role: 'help',
-			submenu: [
-				{
-					label: 'Documentation',
-					click() {
-						shell.openExternal('https://github.com/mglaman/conductor/wiki')
-					}
-				},
-				{
-					label: 'Report an issue',
-					click() {
-						shell.openExternal('https://github.com/mglaman/conductor/issues')
-					}
-				}
-			],
-		}
-	];
-
-	let menuProjectList = projectList.getList();
-	for (var path in menuProjectList) {
-		if (!menuProjectList.hasOwnProperty(path)) {
-			continue;
-		}
-		let thisPath = path;
-		template[0].submenu.push({
-			label: menuProjectList[path],
-			click() {
-				openProject(thisPath)
-			}
-		});
-	}
-
-
-	if (process.platform == 'darwin') {
-		var name = 'Conductor';
-		template.unshift({
-			label: name.upp,
-			submenu: [
-				{
-					label: 'About ' + name,
-					role: 'about'
-				},
-				{
-					type: 'separator'
-				},
-				{
-					label: 'Services',
-					role: 'services',
-					submenu: []
-				},
-				{
-					type: 'separator'
-				},
-				{
-					label: 'Hide ' + name,
-					accelerator: 'Command+H',
-					role: 'hide'
-				},
-				{
-					label: 'Hide Others',
-					accelerator: 'Command+Alt+H',
-					role: 'hideothers'
-				},
-				{
-					label: 'Show All',
-					role: 'unhide'
-				},
-				{
-					type: 'separator'
-				},
-				{
-					label: 'Quit',
-					accelerator: 'Command+Q',
-					click() {
-						app.quit();
-					}
-				},
-			]
-		});
-	}
-
-	var appMenu = menu.buildFromTemplate(template);
-	menu.setApplicationMenu(appMenu);
+	AppMenu.setProjects(projectList.getList());
+	AppMenu.setMenu();
 	createMainWindow();
 });
 
@@ -204,9 +114,7 @@ app.on('activate', function () {
 
 exports.fromNewProject = function (folder) {
 	var composerJson = require(folder + '/composer.json');
-	var projectsJson = require(userData + '/projects.json');
-	projectsJson[folder] = composerJson.name;
-	fs.writeFile(userData + '/projects.json', JSON.stringify(projectsJson));
+	projectList.addProject(folder, composerJson.name);
 	// createProjectWindow(folder);
 };
 
@@ -220,10 +128,7 @@ const openDirectory = function () {
 	fs.exists(folder + '/composer.json', function (exists) {
 		if (exists) {
 			var composerJson = require(folder + '/composer.json');
-			var projectsJson = require(userData + '/projects.json');
-			projectsJson[folder] = composerJson.name;
-			fs.writeFile(userData + '/projects.json', JSON.stringify(projectsJson));
-
+			projectList.addProject(folder, composerJson.name);
 			createProjectWindow(folder[0]);
 		} else {
 			dialog.showMessageBox(mainWindow, {

@@ -1,11 +1,12 @@
 'use strict';
+const app = require('electron').app;
+const fs = require('fs');
 
 /**
- *
- * @param userDataDir
  * @constructor
  */
-let ProjectList = function (userDataDir) {
+let ProjectList = function() {
+	let userDataDir = app.getPath('userData');
 	// Ensure that the user directory exists and we have empty file.
 	if (!this.filesystem.existsSync(userDataDir + '/projects.json')) {
 		if (!this.filesystem.existsSync(userDataDir)) {
@@ -27,6 +28,11 @@ let ProjectList = function (userDataDir) {
 		} else {
 			this.setList({});
 		}
+	};
+
+	this.addProject = (dir, name) => {
+		this.list[dir] = name;
+		fs.writeFile(this.userDataDir + '/projects.json', JSON.stringify(this.list));
 	};
 
 	this.refreshList();
