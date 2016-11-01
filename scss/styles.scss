@@ -161,6 +161,12 @@ button {
 .project__output {
   flex: 1;
   border: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  p {
+	padding: 1px;
+  }
 }
 
 ::-webkit-scrollbar {
@@ -225,4 +231,12 @@ button {
 
 .hidden {
   display: none !important;
+}
+
+.log--error {
+  background: #A94443;
+  color: white;
+}
+.log--output {
+  color: #FFFF91;
 }

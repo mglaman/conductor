@@ -47,61 +47,63 @@ if (projectInstalled) {
 renderDependencies('project-dependencies');
 renderDependencies('project-dev-dependencies', true);
 
-let elOutput = document.getElementById('composer-output');
-
-let composerOutputHandler = (error, stdout, stderr) => {
-	if (error !== null) {
-		elOutput.value = composer.cleanUpOutput(error);
-	} else {
-		if (stdout.length > 0) {
-			elOutput.value += composer.cleanUpOutput(stdout);
-		}
-		if (stderr.length > 0) {
-			elOutput.value += composer.cleanUpOutput(stderr);
-		}
-	}
-};
+const elOutput = document.getElementById('composer-output');
 
 utils.$onClick('action-composer-install', (e) => {
-	elOutput.value = '';
-	var el = /** @type {Element} */ e.srcElement;
-	var elIcon = el.childNodes[1];
-
+	elOutput.innerHTML = '';
+	var elIcon = utils.findButtonicon(e.srcElement);
 	elIcon.classList.remove('hidden');
-	composer.install({}, (error, stdout, stderr) => {
-		composerOutputHandler(error, stdout, stderr);
-		elIcon.classList.add('hidden');
-		activeProject.refreshData();
-		projectInstalled = activeProject.isInstalled();
 
-		if (error === null) {
-			thisWindow.reload();
+	const install = composer.install();
+	install.on('close', (code) => {
+		elIcon.classList.add('hidden');
+
+		if (code === 0) {
+			activeProject.refreshData();
+			projectInstalled = activeProject.isInstalled();
+			// @todo get some kind of binding to not need to do this.
+			// thisWindow.reload();
 		}
 	});
+	install.on('error', (data) => {
+		elOutput.appendChild(utils.outputLogMessage(data, 'log--error'));
+	});
+	utils.outputReadLine(install.stdout, 'log--output', elOutput);
+	// General step info gets sent to stderr, so we don't style it as an error.
+	utils.outputReadLine(install.stderr, 'log--output', elOutput);
 });
 
 utils.$onClick('action-composer-update', (e) => {
-	elOutput.value = '';
-	var el = /** @type {Element} */ e.srcElement;
-	var elIcon = el.childNodes[1];
-
+	elOutput.innerHTML = '';
+	var elIcon = utils.findButtonicon(e.srcElement);
 	elIcon.classList.remove('hidden');
-	composer.update(null, {}, (error, stdout, stderr) => {
-		composerOutputHandler(error, stdout, stderr);
+
+	const update = composer.update(null);
+	update.on('close', (code) => {
 		elIcon.classList.add('hidden');
 	});
+	update.on('error', (data) => {
+		elOutput.appendChild(utils.outputLogMessage(data, 'log--error'));
+	});
+	utils.outputReadLine(update.stdout, 'log--output', elOutput);
+	utils.outputReadLine(update.stderr, 'log--output', elOutput);
 });
 
-utils.$onClick('action-composer-validate', (e) => {
-	elOutput.value = '';
-	var el = /** @type {Element} */ e.srcElement;
-	var elIcon = el.childNodes[1];
 
+utils.$onClick('action-composer-validate', (e) => {
+	elOutput.innerHTML = '';
+	var elIcon = utils.findButtonicon(e.srcElement);
 	elIcon.classList.remove('hidden');
-	composer.validate({}, (error, stdout, stderr) => {
-		composerOutputHandler(error, stdout, stderr);
+
+	const validate = composer.validate();
+	validate.on('close', (code) => {
 		elIcon.classList.add('hidden');
 	});
+	validate.on('error', (data) => {
+		elOutput.appendChild(utils.outputLogMessage(data, 'log--error'));
+	});
+	utils.outputReadLine(validate.stdout, 'log--output', elOutput);
+	utils.outputReadLine(validate.stderr, 'log--output', elOutput);
 });
 
 document.querySelectorAll('.project__dependencies-list li').forEach(function (e) {

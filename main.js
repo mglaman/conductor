@@ -78,7 +78,7 @@ function createPackageWindow(packageName) {
 function createCreateWindow() {
 	mainWindow.close();
 	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/create/create.html`, 600, windowIcon);
-	// packageWindow.webContents.openDevTools();
+	createWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {
 		refreshProjectList();
 		activeProject = null;

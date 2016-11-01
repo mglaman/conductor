@@ -189,6 +189,13 @@ button:hover {
 .project__output {
   flex: 1;
   border: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.project__output p {
+  padding: 1px;
 }
 
 ::-webkit-scrollbar {
@@ -258,6 +265,15 @@ button:hover {
 
 .hidden {
   display: none !important;
+}
+
+.log--error {
+  background: #A94443;
+  color: white;
+}
+
+.log--output {
+  color: #FFFF91;
 }
 
 /*# sourceMappingURL=conductor.css.map */

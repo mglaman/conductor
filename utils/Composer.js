@@ -3,55 +3,59 @@
 /**
  *
  * @param {String} projectPath
- * @param {String} appPath
  * @constructor
  */
 let Composer = function(projectPath) {
-	let bin = null;
+	var bin = this.binPath + '/composer.phar';
 
-	if (!this.isAsar) {
-		bin = process.cwd() + '/composer.phar';
-	} else {
-		bin = this.resourcesPath + '/composer.phar';
-	}
-
-	this.path = projectPath;
-	this.install = (opts, callback) => {
-		this._runCommand(bin + ' install --no-progress', opts, callback);
+	this.install = (opts) => {
+		return this._runCommand(['install', '--no-progress'], opts);
 	};
-	this.update = (dependency, opts, callback) => {
-		var command = bin + ' update --no-progress';
+	this.update = (dependency, opts) => {
+		let command = ['update', '--no-progress'];
 		if (typeof dependency === 'string') {
-			command += ' ' + dependency;
+			command.push(dependency);
 		}
-		this._runCommand(command, opts, callback);
+		return this._runCommand(command, opts);
 	};
-	this.validate = (opts, callback) => {
-		this._runCommand(bin + ' validate', opts, callback);
+	this.validate = (opts) => {
+		return this._runCommand(['validate'], opts);
 	};
-	this.show = (dependency, opts, callback) => {
-		this._runCommand(bin + ' show ' + dependency, opts, callback);
+	/**
+	 *
+	 * @param dependency
+	 * @param opts
+	 * @returns {ChildProcess}
+	 */
+	this.show = (dependency, opts) => {
+		return this._runCommand(['show', dependency], opts);
 	};
-	this.remove = (dependency, opts, callback) => {
-		this._runCommand(bin + ' remove ' + dependency, opts, callback);
+	this.remove = (dependency, opts) => {
+		return this._runCommand(['remove', dependency], opts);
 	};
-	this.createProject = (project, destination, opts, callback) => {
-		this._runCommand(bin + ' create-project ' + project + ' ' + destination + ' --stability dev', opts, callback)
+	this.createProject = (project, destination, opts) => {
+		return this._runCommand(['create-project', project, destination,'--stability', 'dev', '--no-interaction'], opts)
 	};
-	this._runCommand = (command, opts, callback) => {
-		opts['cwd'] = this.path;
-		console.log(command);
-		this.exec(command, opts, callback)
+	this._normalizeOpts = (opts) => {
+		if (typeof opts === 'undefined' || opts.length === 0) {
+			opts = {};
+		}
+		opts['cwd'] = projectPath;
+		return opts;
+	};
+	/**
+	 *
+	 * @param command
+	 * @param opts
+	 * @returns {ChildProcess}
+	 * @private
+	 */
+	this._runCommand = (command, opts) => {
+		opts = this._normalizeOpts(opts);
+		return this.spawn(bin, command, opts);
 	}
 };
-Composer.prototype.exec = require('child_process').exec;
-Composer.prototype.path = '';
-Composer.prototype.isAsar = process.mainModule.filename.indexOf('app.asar') !== -1;
-Composer.prototype.resourcesPath = process.resourcesPath;
-Composer.prototype.cleanUpOutput = (output) => {
-	if (output.length > 0 && typeof output === 'string') {
-		return output.replace('You are running composer with xdebug enabled. This has a major impact on runtime performance. See https://getcomposer.org/xdebug', '');
-	}
-	return output;
-};
+
+Composer.prototype.spawn = require('child_process').spawn;
+Composer.prototype.binPath = (process.mainModule.filename.indexOf('app.asar') !== -1) ? process.resourcesPath : process.cwd();
 module.exports = Composer;

@@ -19,49 +19,54 @@ $.getElementById('package-description').textContent = currentPackage.json.descri
 
 let elOutput = document.getElementById('composer-output');
 
-let composerOutputHandler = (error, stdout, stderr) => {
-	if (error !== null) {
-		elOutput.value = composer.cleanUpOutput(error);
-	} else {
-		if (stdout.length > 0) {
-			elOutput.value += composer.cleanUpOutput(stdout);
-		}
-		if (stderr.length > 0) {
-			elOutput.value += composer.cleanUpOutput(stderr);
-		}
-	}
-};
-
 utils.$onClick('action-composer-update', (e) => {
-	elOutput.value = '';
-	var el = /** @type {Element} */ e.srcElement;
-	var elIcon = el.childNodes[1];
-
+	elOutput.innerHTML = '';
+	var elIcon = utils.findButtonicon(e.srcElement);
 	elIcon.classList.remove('hidden');
-	composer.update(currentPackage.json.name, {}, (error, stdout, stderr) => {
-		composerOutputHandler(error, stdout, stderr);
+
+	const update = composer.update(currentPackage.__get('name'));
+	update.on('close', (code) => {
 		elIcon.classList.add('hidden');
 	});
+	update.on('error', (data) => {
+		elOutput.appendChild(utils.outputLogMessage(data, 'log--error'));
+	});
+	utils.outputReadLine(update.stdout, 'log--output', elOutput);
+	utils.outputReadLine(update.stderr, 'log--output', elOutput);
 });
+
+
 utils.$onClick('action-composer-remove', (e) => {
-	elOutput.value = '';
-	var el = /** @type {Element} */ e.srcElement;
-	var elIcon = el.childNodes[1];
-
+	elOutput.innerHTML = '';
+	var elIcon = utils.findButtonicon(e.srcElement);
 	elIcon.classList.remove('hidden');
-	composer.remove(currentPackage.json.name, {}, (error, stdout, stderr) => {
-		composerOutputHandler(error, stdout, stderr);
+
+	const remove = composer.remove(currentPackage.getName());
+	remove.on('close', (code) => {
 		elIcon.classList.add('hidden');
 	});
+	remove.on('error', (data) => {
+		elOutput.appendChild(utils.outputLogMessage(data, 'log--error'));
+	});
+	utils.outputReadLine(remove.stdout, 'log--output', elOutput);
+	utils.outputReadLine(remove.stderr, 'log--output', elOutput);
 });
-utils.$onClick('action-composer-show', (e) => {
-	elOutput.value = '';
-	var el = /** @type {Element} */ e.srcElement;
-	var elIcon = el.childNodes[1];
 
+utils.$onClick('action-composer-show', (e) => {
+	elOutput.innerHTML = '';
+	var elIcon = utils.findButtonicon(e.srcElement);
 	elIcon.classList.remove('hidden');
-	composer.show(currentPackage.json.name, {}, (error, stdout, stderr) => {
-		composerOutputHandler(error, stdout, stderr);
+
+	const show = composer.show(currentPackage.getName());
+	console.log(show);
+	show.on('close', (code) => {
+		console.log(code);
 		elIcon.classList.add('hidden');
 	});
+	show.on('error', (data) => {
+		console.log(data);
+		elOutput.appendChild(utils.outputLogMessage(data, 'log--error'));
+	});
+	utils.outputReadLine(show.stdout, 'log--output', elOutput);
+	utils.outputReadLine(show.stderr, 'log--output', elOutput);
 });
