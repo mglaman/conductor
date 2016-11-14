@@ -10,6 +10,7 @@ All forms of contribution are welcomed for Conductor: bug fixes, feature pull re
 1. Answer a question
 1. Provide design/UI feedback and suggestions.
 1. Fix a bug/resolve an issue
+1. Support via Gratipay for maintenance and development: https://gratipay.com/Conductor/
 
 ## Code Contributions
 
