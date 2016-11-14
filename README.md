@@ -1,4 +1,4 @@
-# ![Conductor](build/icons/24x24.png) Conductor [![Build Status](https://travis-ci.org/mglaman/conductor.svg?branch=master)](https://travis-ci.org/mglaman/conductor) [![Build status](https://ci.appveyor.com/api/projects/status/anprg1634xsqm7g3?svg=true)](https://ci.appveyor.com/project/mglaman/conductor)
+# ![Conductor](build/icons/24x24.png) Conductor [![Build Status](https://travis-ci.org/mglaman/conductor.svg?branch=master)](https://travis-ci.org/mglaman/conductor) [![Build status](https://ci.appveyor.com/api/projects/status/anprg1634xsqm7g3?svg=true)](https://ci.appveyor.com/project/mglaman/conductor) [![Gratipay Team](https://img.shields.io/gratipay/team/conductor.svg)]()
 
 
 A user interface for Composer, the dependency management tool for PHP.
