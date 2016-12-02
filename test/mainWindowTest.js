@@ -62,7 +62,8 @@ describe('application launch', function () {
 		/** @type WebdriverIO.Client**/
 		const client = app.client;
 		return client.waitUntilWindowLoaded()
-			.browserWindow.focus();
+			.browserWindow.focus()
+			.getWindowCount().should.eventually.equal(1);
 	});
 	it('loads new project window', function () {
 		/** @type WebdriverIO.Client**/
