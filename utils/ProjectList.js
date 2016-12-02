@@ -8,13 +8,7 @@ let ProjectList = function() {
 	/** @type {ElectronConfig} */
 	const config = new Config();
 
-	if (config.has('projects')) {
-		this.setList(config.get('projects'));
-	}
-
-	this.setList = (list) => {
-		this.list = list;
-	};
+	this.setList = (list) => { this.list = list; };
 	this.getList = () => { return this.list; };
 
 	this.refreshList = () => {
