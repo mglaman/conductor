@@ -1,7 +1,7 @@
 'use strict';
-let Package = require('./Package');
-var Lock = function (json) {
-	var self = this;
+const Package = require('./Package');
+const Lock = function (json) {
+	const self = this;
 	this.json = json;
 
 	Array.from(json.packages).forEach(function (item) {
