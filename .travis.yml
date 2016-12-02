@@ -25,21 +25,21 @@ addons:
       - icnsutils
 
 install:
-- nvm install 6
-- npm install
-- npm prune
+  - nvm install 6
+  - npm install
+  - npm prune
 
 before_script:
-- |
-  if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-	export DISPLAY=:99.0
-	sh -e /etc/init.d/xvfb start
-	sleep 3
-  fi
+  - |
+	if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+	  export DISPLAY=:99.0
+	  sh -e /etc/init.d/xvfb start
+	  sleep 3
+	fi
 
 script:
-- npm test
-- npm run dist
+  - npm test
+  - npm run dist
 
 branches:
   except:
