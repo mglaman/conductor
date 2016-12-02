@@ -78,7 +78,7 @@ function createPackageWindow(packageName) {
 function createCreateWindow() {
 	mainWindow.close();
 	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/create/create.html`, 600, windowIcon);
-	createWindow.webContents.openDevTools();
+	// createWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {
 		refreshProjectList();
 		activeProject = null;
@@ -113,13 +113,13 @@ app.on('activate', function () {
 });
 
 exports.fromNewProject = function (folder) {
-	var composerJson = require(folder + '/composer.json');
+	const composerJson = require(folder + '/composer.json');
 	projectList.addProject(folder, composerJson.name);
 	// createProjectWindow(folder);
 };
 
 const openDirectory = function () {
-	var folder = dialog.showOpenDialog(mainWindow, {
+	let folder = dialog.showOpenDialog(mainWindow, {
 		properties: ['openDirectory'],
 	});
 	if (!folder) {
@@ -127,7 +127,7 @@ const openDirectory = function () {
 	}
 	fs.exists(folder + '/composer.json', function (exists) {
 		if (exists) {
-			var composerJson = require(folder + '/composer.json');
+			const composerJson = require(folder + '/composer.json');
 			projectList.addProject(folder, composerJson.name);
 			createProjectWindow(folder[0]);
 		} else {

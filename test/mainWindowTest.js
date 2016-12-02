@@ -19,6 +19,7 @@ global.before(function () {
 
 const app = new Application({
 	path: electronPath,
+	env: { RUNNING_IN_SPECTRON: '1' },
 	args: [appPath]
 });
 
@@ -39,7 +40,7 @@ describe('application launch', function () {
 		}
 	});
 
-	it('load Conductor project listing window', function () {
+	it('loads project listing window', function () {
 		/** @type WebdriverIO.Client**/
 		const client = app.client;
 
@@ -50,8 +51,36 @@ describe('application launch', function () {
 			.browserWindow.isDevToolsOpened().should.eventually.be.false
 			.browserWindow.isVisible().should.eventually.be.true
 			.browserWindow.isFocused().should.eventually.be.true
+			.getTitle().should.eventually.equal('Conductor - the Composer UI')
 			.getText('#open-project').should.eventually.equal('Existing project')
 			.getText('#new-project').should.eventually.equal('New project')
 			.getText('#open-settings').should.eventually.equal('Settings')
-	})
+	});
+	it('opens existing project window', function () {
+		/** @type WebdriverIO.Client**/
+		const client = app.client;
+
+		// @todo find a way to actually test dialogs.
+		return client.waitUntilWindowLoaded()
+			.browserWindow.focus();
+	});
+	it('loads new project window', function () {
+		/** @type WebdriverIO.Client**/
+		const client = app.client;
+
+		// @todo find a way to actually test dialogs.
+		return client.waitUntilWindowLoaded()
+			.browserWindow.focus()
+			.click('#new-project')
+			.windowByIndex(0)
+			.getTitle().should.eventually.equal('Create new project');
+	});
+	it('opens settings window', function () {
+		/** @type WebdriverIO.Client**/
+		const client = app.client;
+
+		return client.waitUntilWindowLoaded()
+			.browserWindow.focus()
+			.click('#open-settings');
+	});
 });
