@@ -8,7 +8,7 @@
     "pack": "build --dir",
     "dist": "build",
     "dist-all": "build -mwl",
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
