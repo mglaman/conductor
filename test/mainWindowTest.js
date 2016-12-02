@@ -39,15 +39,19 @@ describe('application launch', function () {
 		}
 	});
 
-	it('shows an initial window', function () {
-		return app.client.waitUntilWindowLoaded()
+	it('load Conductor project listing window', function () {
+		/** @type WebdriverIO.Client**/
+		const client = app.client;
+
+		return client.waitUntilWindowLoaded()
 			.browserWindow.focus()
 			.getWindowCount().should.eventually.equal(1)
 			.browserWindow.isMinimized().should.eventually.be.false
 			.browserWindow.isDevToolsOpened().should.eventually.be.false
 			.browserWindow.isVisible().should.eventually.be.true
 			.browserWindow.isFocused().should.eventually.be.true
-			.browserWindow.getBounds().should.eventually.have.property('width').and.be.above(0)
-			.browserWindow.getBounds().should.eventually.have.property('height').and.be.above(0)
+			.getText('#open-project').should.eventually.equal('Existing project')
+			.getText('#new-project').should.eventually.equal('New project')
+			.getText('#open-settings').should.eventually.equal('Settings')
 	})
 });
