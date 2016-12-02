@@ -7,7 +7,8 @@
     "start": "electron .",
     "pack": "build --dir",
     "dist": "build",
-    "dist-all": "build -mwl"
+    "dist-all": "build -mwl",
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -51,6 +52,8 @@
   },
   "devDependencies": {
     "autoprefixer": "^6.0.3",
+    "chai": "^3.5.0",
+    "chai-as-promised": "^6.0.0",
     "electron": "^1.2.0",
     "electron-builder": "^7.14.2",
     "grunt": "^1.0.1",
@@ -58,7 +61,9 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-sass": "^1.0.0",
     "grunt-scss-lint": "^0.3.8",
-    "load-grunt-tasks": "^3.4.0"
+    "load-grunt-tasks": "^3.4.0",
+    "mocha": "^3.2.0",
+    "spectron": "^3.4.0"
   },
   "dependencies": {
     "electron-config": "^0.2.1",

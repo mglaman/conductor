@@ -22,9 +22,12 @@ install:
   - npm install
   - npm prune
 
+test_script:
+  - node --version
+  - npm --version
+  - npm test
+
 build_script:
   - node --version
   - npm --version
   - npm run dist
-
-test: off
