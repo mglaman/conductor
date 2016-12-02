@@ -56,11 +56,11 @@ describe('application launch', function () {
 			.getText('#new-project').should.eventually.equal('New project')
 			.getText('#open-settings').should.eventually.equal('Settings')
 	});
+	// @todo find a way to actually test dialogs.
 	it('opens existing project window', function () {
+
 		/** @type WebdriverIO.Client**/
 		const client = app.client;
-
-		// @todo find a way to actually test dialogs.
 		return client.waitUntilWindowLoaded()
 			.browserWindow.focus();
 	});
