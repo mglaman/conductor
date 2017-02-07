@@ -1,12 +1,12 @@
 const fs = require('fs');
 const electron = require('electron');
-
-const app = electron.app;
-const dialog = electron.dialog;
 const Project = require('./models/Project');
 const ProjectList = require('./utils/ProjectList');
 const BrowserWindowFactory = require('./utils/BrowserWindowFactory');
 const AppMenu = require('./utils/AppMenu');
+const AppUpdater = require('./utils/AppUpdater');
+const app = electron.app;
+const dialog = electron.dialog;
 
 let windowIcon = __dirname + '/build/icons/icon.svg';
 let projectList = new ProjectList();
@@ -97,6 +97,7 @@ app.on('ready', () => {
 	AppMenu.setProjects(projectList.getList());
 	AppMenu.setMenu();
 	createMainWindow();
+	new AppUpdater();
 });
 
 // Quit when all windows are closed.

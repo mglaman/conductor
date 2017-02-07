@@ -31,6 +31,9 @@
       "composer.phar"
     ],
     "mac": {
+      "publish": [
+        "github"
+      ],
       "category": "public.app-category.developer-tools"
     },
     "win": {
@@ -67,6 +70,8 @@
   },
   "dependencies": {
     "electron-config": "^0.2.1",
+    "electron-is-dev": "^0.1.2",
+    "electron-updater": "^1.4.2",
     "font-awesome": "^4.6.3"
   }
 }
