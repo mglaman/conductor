@@ -4,11 +4,11 @@ const electron = require('electron');
 const remote = electron.remote;
 const mainProcess = remote.require('./main');
 const openProjectButton = document.getElementById('open-project');
-openProjectButton.addEventListener('click', function () {
+openProjectButton.addEventListener('click', () =>{
 	mainProcess.openDirectory();
 });
 const createProjectButton = document.getElementById('new-project');
-createProjectButton.addEventListener('click', function () {
+createProjectButton.addEventListener('click', () =>{
 	mainProcess.createProject();
 });
 const elProjectList = document.getElementById('project-list');

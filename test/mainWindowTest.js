@@ -72,15 +72,20 @@ describe('application launch', function () {
 			.browserWindow.focus()
 			.click('#new-project')
 			.then((dialog) => {
+				assert(client.getWindowCount(), 1);
 				assert(client.windowByIndex(0).getTitle(), 'Create new project');
 			});
 	});
+
 	it('opens settings window', function () {
 		/** @type WebdriverIO.Client**/
-		const client = app.client;
+		const client = app.client.waitUntilWindowLoaded();
 
-		return client.waitUntilWindowLoaded()
+		// @todo add settings window.
+		return client
 			.browserWindow.focus()
-			.click('#open-settings');
+			.click('#open-settings')
+			.browserWindow.focus()
+			.getWindowCount().should.eventually.equal(1)
 	});
 });
