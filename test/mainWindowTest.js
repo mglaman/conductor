@@ -1,8 +1,8 @@
-const Application = require("spectron").Application;
-const path = require('path');
-const chai = require('chai');
-const chaiAsPromised = require('chai-as-promised');
-const assert = require('assert');
+import {Application} from "spectron";
+import path from "path";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+import assert from "assert";
 
 let electronPath = path.join(__dirname, '..', 'node_modules', '.bin', 'electron');
 
