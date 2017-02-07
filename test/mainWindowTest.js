@@ -17,17 +17,17 @@ global.before(function () {
 	chai.use(chaiAsPromised)
 });
 
-const app = new Application({
-	path: electronPath,
-	env: { RUNNING_IN_SPECTRON: '1' },
-	args: [appPath]
-});
-
 describe('application launch', function () {
 	this.timeout(10000);
+	let app = null;
 
 	beforeEach(function () {
-		return app.start().then(function () {
+		app = new Application({
+			path: electronPath,
+			env: { RUNNING_IN_SPECTRON: '1' },
+			args: [appPath]
+		});
+		return app.start().then(() => {
 			assert.equal(app.isRunning(), true);
 			chaiAsPromised.transferPromiseness = app.transferPromiseness;
 			return app;
@@ -35,16 +35,16 @@ describe('application launch', function () {
 	});
 
 	afterEach(function () {
-		if (app && app.isRunning()) {
-			return app.stop()
-		}
+		return app.stop().then(() => {
+			app = null;
+		})
 	});
 
 	it('loads project listing window', function () {
 		/** @type WebdriverIO.Client**/
-		const client = app.client;
+		const client = app.client.waitUntilWindowLoaded();
 
-		return client.waitUntilWindowLoaded()
+		return client
 			.browserWindow.focus()
 			.getWindowCount().should.eventually.equal(1)
 			.browserWindow.isMinimized().should.eventually.be.false
@@ -58,23 +58,22 @@ describe('application launch', function () {
 	});
 	// @todo find a way to actually test dialogs.
 	it('opens existing project window', function () {
-
 		/** @type WebdriverIO.Client**/
-		const client = app.client;
-		return client.waitUntilWindowLoaded()
+		const client = app.client.waitUntilWindowLoaded();
+		return client
 			.browserWindow.focus()
 			.getWindowCount().should.eventually.equal(1);
 	});
 	it('loads new project window', function () {
 		/** @type WebdriverIO.Client**/
-		const client = app.client;
+		const client = app.client.waitUntilWindowLoaded();
 
-		// @todo find a way to actually test dialogs.
-		return client.waitUntilWindowLoaded()
+		return client
 			.browserWindow.focus()
 			.click('#new-project')
-			.windowByIndex(0)
-			.getTitle().should.eventually.equal('Create new project');
+			.then((dialog) => {
+				assert(client.windowByIndex(0).getTitle(), 'Create new project');
+			});
 	});
 	it('opens settings window', function () {
 		/** @type WebdriverIO.Client**/
