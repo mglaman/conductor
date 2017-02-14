@@ -17,7 +17,7 @@ utils.$onClick('project-destination', projectDestinationBrowse);
 utils.$addEventListener('project-destination', 'onfocus', projectDestinationBrowse);
 
 function projectDestinationBrowse() {
-	var folder = dialog.showOpenDialog(thisWindow, {
+	let folder = dialog.showOpenDialog(thisWindow, {
 		properties: ['openDirectory'],
 	});
 	if (!folder) {
