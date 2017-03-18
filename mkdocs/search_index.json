@@ -1,0 +1,9 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Conductor\n is a cross-platform Composer user interface.\n\n\nWelcome to the documentation.", 
+            "title": "Home"
+        }
+    ]
+}
