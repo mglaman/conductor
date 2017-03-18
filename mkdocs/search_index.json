@@ -2,8 +2,23 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Conductor\n is a cross-platform Composer user interface.\n\n\nWelcome to the documentation.", 
+            "text": "Conductor\n: A user interface for Composer, the dependency management tool for PHP.\n\n\n\n\nConductor provides a user interface for creating and managing PHP applications using Composer.", 
             "title": "Home"
+        }, 
+        {
+            "location": "/installation/macos/", 
+            "text": "Find the latest release: https://github.com/mglaman/conductor/releases\n\n\nDownload the available *.dmg file, or mac.zip", 
+            "title": "macOS"
+        }, 
+        {
+            "location": "/installation/windows/", 
+            "text": "Find latest release: https://github.com/mglaman/conductor/releases\n\n\nDownloand and run .exe", 
+            "title": "Windows"
+        }, 
+        {
+            "location": "/installation/linux/", 
+            "text": "Find the latest release: https://github.com/mglaman/conductor/releases\n\n\nUse the .deb", 
+            "title": "Linux"
         }
     ]
 }

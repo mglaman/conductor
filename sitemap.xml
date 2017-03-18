@@ -9,4 +9,26 @@
     </url>
     
 
+    
+        
+    <url>
+     <loc>/installation/macos/</loc>
+     <lastmod>2017-03-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/installation/windows/</loc>
+     <lastmod>2017-03-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/installation/linux/</loc>
+     <lastmod>2017-03-17</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
 </urlset>
