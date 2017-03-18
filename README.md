@@ -9,6 +9,10 @@ Conductor provides a user interface for creating and managing PHP applications u
 
 ## To Use
 
+### Documentation
+
+Documentation can be found at https://mglaman.github.io/conductor/
+
 ### Releases
 
 Compiled builds are available in the list of [releases](https://github.com/mglaman/conductor/releases/latest).

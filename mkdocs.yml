@@ -1,0 +1,16 @@
+site_name: Conductor Documentation
+
+repo_url: https://github.com/mglaman/conductor
+site_description: 'Conductor - A cross-platform Composer user interface'
+theme: readthedocs
+
+markdown_extensions:
+  - toc:
+        permalink: True
+
+pages:
+  - Home: 'index.md'
+  - Installation:
+    - 'macOS': 'installation/macos.md'
+    - 'Windows': 'installation/windows.md'
+    - 'Linux': 'installation/linux.md'
