@@ -4,9 +4,9 @@ const electron = require('electron');
 const app = electron.app;
 const menu = electron.Menu;
 const shell = electron.shell;
-const main = require('../main');
+const main = require('../../main');
 
-var template = [
+let template = [
 	{
 		label: 'Projects',
 		submenu: [],
@@ -31,8 +31,8 @@ var template = [
 	}
 ];
 
-if (process.platform == 'darwin') {
-	var name = 'Conductor';
+if (process.platform === 'darwin') {
+	const name = 'Conductor';
 	template.unshift({
 		label: name,
 		submenu: [
@@ -82,22 +82,21 @@ if (process.platform == 'darwin') {
 
 module.exports = {
 	setProjects: (projects) => {
-		let key = (process.platform == 'darwin') ? 1 : 0;
-		for (var path in projects) {
+		let key = (process.platform === 'darwin') ? 1 : 0;
+		for (let path in projects) {
 			if (!projects.hasOwnProperty(path)) {
 				continue;
 			}
-			let thisPath = path;
 			template[key].submenu.push({
 				label: projects[path],
 				click() {
-					main.openProject(thisPath)
+					main.openProject(path)
 				}
 			});
 		}
 	},
 	setMenu: () => {
-		var appMenu = menu.buildFromTemplate(template);
+		let appMenu = menu.buildFromTemplate(template);
 		menu.setApplicationMenu(appMenu);
 	}
 };

@@ -1,10 +1,10 @@
 const fs = require('fs');
 const electron = require('electron');
-const Project = require('./models/Project');
-const ProjectList = require('./utils/ProjectList');
-const BrowserWindowFactory = require('./utils/BrowserWindowFactory');
-const AppMenu = require('./utils/AppMenu');
-const AppUpdater = require('./utils/AppUpdater');
+const Project = require('./src/models/Project');
+const ProjectList = require('./src/utils/ProjectList');
+const BrowserWindowFactory = require('./src/utils/BrowserWindowFactory');
+const AppMenu = require('./src/utils/AppMenu');
+const AppUpdater = require('./src/utils/AppUpdater');
 const app = electron.app;
 const dialog = electron.dialog;
 
@@ -24,7 +24,7 @@ let viewingPackage = null;
 
 
 function createMainWindow() {
-	mainWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/index.html`, 600, windowIcon);
+	mainWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/index.html`, 600, windowIcon);
 	// mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', () => {
 		mainWindow = null
@@ -33,7 +33,7 @@ function createMainWindow() {
 function createProjectWindow(folder) {
 	try {
 		activeProject = new Project(folder);
-		projectWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/project/project.html`, 800, windowIcon);
+		projectWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/project/project.html`, 800, windowIcon);
 		// projectWindow.webContents.openDevTools();
 
 		projectWindow.on('show', () => {
@@ -64,7 +64,7 @@ function createPackageWindow(packageName) {
 		packageWindow = null;
 	}
 	viewingPackage = activeProject.getLock().getPackage(packageName);
-	packageWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/package/package.html`, 800, windowIcon);
+	packageWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/package/package.html`, 800, windowIcon);
 	// packageWindow.webContents.openDevTools();
 	packageWindow.on('closed', () => {
 		if (activeProject !== null) {
@@ -77,7 +77,7 @@ function createPackageWindow(packageName) {
 
 function createCreateWindow() {
 	mainWindow.close();
-	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/windows/create/create.html`, 600, windowIcon);
+	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/create/create.html`, 600, windowIcon);
 	// createWindow.webContents.openDevTools();
 	createWindow.on('closed', () => {
 		refreshProjectList();

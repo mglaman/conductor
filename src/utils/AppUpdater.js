@@ -25,7 +25,7 @@ class AppUpdater {
 
 function notify(title, message) {
 	let windows = BrowserWindowElectron.getAllWindows();
-	if (windows.length == 0) {
+	if (windows.length === 0) {
 		return
 	}
 

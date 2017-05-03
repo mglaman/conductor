@@ -6,7 +6,7 @@
  * @constructor
  */
 let Composer = function(projectPath) {
-	var bin = this.binPath + '/composer.phar';
+	const bin = this.binPath + '/composer.phar';
 
 	this.install = (opts) => {
 		return this._runCommand(['install', '--no-progress'], opts);

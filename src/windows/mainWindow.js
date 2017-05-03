@@ -11,6 +11,11 @@ const createProjectButton = document.getElementById('new-project');
 createProjectButton.addEventListener('click', () =>{
 	mainProcess.createProject();
 });
+const globalPackages = document.getElementById('global');
+globalPackages.addEventListener('click', () =>{
+	mainProcess.openProject(remote.app.getPath('home') + '/.composer');
+});
+
 const elProjectList = document.getElementById('project-list');
 const projectList = mainProcess.getProjectList().getList();
 for (let path in projectList) {
