@@ -17,6 +17,20 @@ $.getElementById('package-version').textContent = currentPackage.getVersion();
 $.getElementById('package-homepage').textContent = currentPackage.json.homepage;
 $.getElementById('package-description').textContent = currentPackage.json.description;
 
+// dependencies
+if (currentPackage.json['require']){
+    Object.keys(currentPackage.json['require']).forEach(function (dependencyName) {
+        let version = currentPackage.json['require'][dependencyName];
+        $.getElementById('package-dependencies').innerHTML += '<li>' + dependencyName + ': ' + version + '</li>';
+    });
+}
+if (currentPackage.json['require-dev']){
+    Object.keys(currentPackage.json['require-dev']).forEach(function (dependencyName) {
+        let version = currentPackage.json['require-dev'][dependencyName];
+        $.getElementById('package-dev-dependencies').innerHTML += '<li>' + dependencyName + ': ' + version + '</li>';
+    });
+}
+
 let elOutput = document.getElementById('composer-output');
 
 utils.$onClick('action-composer-update', (e) => {
