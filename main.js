@@ -11,6 +11,7 @@ const dialog = electron.dialog;
 let windowIcon = __dirname + '/build/icons/icon.svg';
 let projectList = new ProjectList();
 let mainWindow = null;
+let wrapperWindow = null;
 let projectWindow = null;
 let packageWindow = null;
 let createWindow = null;
@@ -30,49 +31,32 @@ function createMainWindow() {
 		mainWindow = null
 	})
 }
-function createProjectWindow(folder) {
-	try {
-		activeProject = new Project(folder);
-		projectWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/project/project.html`, 800, windowIcon);
-		// projectWindow.webContents.openDevTools();
 
-		projectWindow.on('show', () => {
-			if (mainWindow !== null) {
+function createWrapperWindow(folder){
+    try {
+        activeProject = new Project(folder);
+        wrapperWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/wrapper/wrapper.html`, 800, windowIcon);
+        //wrapperWindow.webContents.openDevTools();
+        wrapperWindow.on('show', () => {
+				if (mainWindow !== null) {
 				mainWindow.close();
 			}
 		});
-		projectWindow.on('closed', () => {
-			activeProject = null;
-			projectWindow = null;
+        wrapperWindow.on('closed', () => {
+            //activeProject = null;
+        	//projectWindow = null;
 			if (mainWindow === null) {
 				createMainWindow();
 			}
 		});
-	} catch (e) {
-		console.error(e);
-		dialog.showMessageBox({
-			'type': 'error',
-			'buttons': [],
-			'message': 'There is was an error parsing the composer.json'
-		});
-	}
-}
-
-function createPackageWindow(packageName) {
-	if (packageWindow !== null) {
-		packageWindow.close();
-		packageWindow = null;
-	}
-	viewingPackage = activeProject.getLock().getPackage(packageName);
-	packageWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/package/package.html`, 800, windowIcon);
-	// packageWindow.webContents.openDevTools();
-	packageWindow.on('closed', () => {
-		if (activeProject !== null) {
-			activeProject.refreshData();
-		}
-		viewingPackage = null;
-		packageWindow = null;
-	});
+    } catch (e) {
+        console.error(e);
+        dialog.showMessageBox({
+            'type': 'error',
+            'buttons': [],
+            'message': 'There is was an error parsing the composer.json'
+        });
+    }
 }
 
 function createCreateWindow() {
@@ -130,7 +114,7 @@ const openDirectory = function () {
 		if (exists) {
 			const composerJson = require(folder + '/composer.json');
 			projectList.addProject(folder, composerJson.name);
-			createProjectWindow(folder[0]);
+			createWrapperWindow(folder[0]);
 		} else {
 			dialog.showMessageBox(mainWindow, {
 				'type': 'error',
@@ -143,7 +127,7 @@ const openDirectory = function () {
 exports.openDirectory = openDirectory;
 
 const openProject = function (path) {
-	createProjectWindow(path);
+	createWrapperWindow(path);
 };
 exports.openProject = openProject;
 
@@ -168,11 +152,6 @@ const getProjectList = () => {
 	return projectList;
 };
 exports.getProjectList = getProjectList;
-
-const openPackage = function (packageName) {
-	createPackageWindow(packageName);
-};
-exports.openPackage = openPackage;
 
 /**
  * @returns {Package}

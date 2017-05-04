@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Conductor - the Composer UI</title>
+    <link href="../../../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
+    <link href="../../../public/css/conductor.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="flex flex--row flex--grow">
+    <div class="flex flex--column project__sidebar" style="flex: 0 0 35%; max-width: 35%;">
+        <div class="flex flex--row project__title">
+            <h4 id="project-name"></h4>
+        </div>
+        <details open>
+            <summary>Composer</summary>
+            <ul>
+                <li id="project-composer-json">composer.json</li>
+                <li id="project-composer-lock" class="hidden">composer.lock</li>
+            </ul>
+        </details>
+        <details open>
+            <summary>Requirements</summary>
+            <ul class="project__dependencies-list" id="project-dependencies"></ul>
+        </details>
+        <details>
+            <summary>Developer Requirements</summary>
+            <ul class="project__dependencies-list" id="project-dev-dependencies"></ul>
+        </details>
+    </div>
+    <div class="flex flex--column project__information"  style="flex: 1">
+        <div id="wrapper-contents-container">
+
+        </div>
+    </div>
+</div>
+</body>
+
+<script>
+    require('./wrapperWindow.js')
+</script>
+</html>
