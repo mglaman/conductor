@@ -3,33 +3,25 @@
 const electron = require('electron');
 const remote = electron.remote;
 const mainProcess = remote.require('./main');
-const openProjectButton = document.getElementById('open-project');
-openProjectButton.addEventListener('click', () =>{
-	mainProcess.openDirectory();
-});
-const createProjectButton = document.getElementById('new-project');
-createProjectButton.addEventListener('click', () =>{
-	mainProcess.createProject();
-});
-const globalPackages = document.getElementById('global');
-globalPackages.addEventListener('click', () =>{
-	mainProcess.openProject(remote.app.getPath('home') + '/.composer');
-});
-
-const elProjectList = document.getElementById('project-list');
 const projectList = mainProcess.getProjectList().getList();
-for (let path in projectList) {
-	if (!projectList.hasOwnProperty(path)) {
-		continue;
+
+let vm = new Vue({
+	el: '#app',
+	data: {
+		projects: projectList
+	},
+	methods: {
+		openProject: (path) => {
+			mainProcess.openProject(path);
+		},
+		openDirectory: () => {
+			mainProcess.openDirectory();
+		},
+		createProject: () => {
+			mainProcess.createProject();
+		},
+		globalProject: () => {
+			mainProcess.openProject(remote.app.getPath('home') + '/.composer');
+		}
 	}
-	const button = document.createElement('button');
-	button.innerHTML = '<i class="fa fa-folder"></i> ' + projectList[path];
-	button.setAttribute('data-folder', path);
-	button.addEventListener('click', (e) => {
-		/** @var {MouseEvent} click */
-		mainProcess.openProject(e.srcElement.getAttribute('data-folder'));
-	});
-	const item = document.createElement('li');
-	item.appendChild(button);
-	elProjectList.appendChild(item);
-}
+});

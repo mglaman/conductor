@@ -69,7 +69,7 @@
     "autoprefixer": "^6.0.3",
     "chai": "^3.5.0",
     "chai-as-promised": "^6.0.0",
-    "electron": "^1.2.0",
+    "electron": "^1.7.5",
     "electron-builder": "^7.14.2",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
@@ -77,13 +77,13 @@
     "grunt-sass": "^1.0.0",
     "grunt-scss-lint": "^0.3.8",
     "load-grunt-tasks": "^3.4.0",
-    "mocha": "^3.2.0",
-    "spectron": "^3.4.0"
+    "mocha": "^3.4.2",
+    "spectron": "^3.7.2"
   },
   "dependencies": {
     "electron-config": "^0.2.1",
     "electron-is-dev": "^0.1.2",
-    "electron-updater": "^1.4.2",
+    "electron-updater": "^1.16.0",
     "font-awesome": "^4.6.3"
   }
 }
