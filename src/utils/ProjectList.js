@@ -23,6 +23,11 @@ let ProjectList = function() {
 		config.set('projects', this.list);
 	};
 
+	this.removeProject = (dir) => {
+		delete this.list[dir];
+		config.set('projects', this.list);
+	}
+
 	this.refreshList();
 };
 ProjectList.prototype.list = {};

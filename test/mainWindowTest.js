@@ -52,8 +52,8 @@ describe('application launch', function () {
 			.browserWindow.isVisible().should.eventually.be.true
 			.browserWindow.isFocused().should.eventually.be.true
 			.getTitle().should.eventually.equal('Conductor - the Composer UI')
-			.getText('#open-project').should.eventually.equal('Existing project')
-			.getText('#create-project').should.eventually.equal('New project')
+			.getText('#open-project').should.eventually.equal('Add existing project')
+			.getText('#create-project').should.eventually.equal('Create new project')
 			.getText('#open-settings').should.eventually.equal('Settings')
 	});
 	// @todo find a way to actually test dialogs.

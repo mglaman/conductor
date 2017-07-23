@@ -9,11 +9,11 @@ const app = electron.app;
 const dialog = electron.dialog;
 
 let windowIcon = __dirname + '/build/icons/icon.svg';
+let windowSize = 1024;
+let debug = false;
 let projectList = new ProjectList();
 let mainWindow = null;
 let projectWindow = null;
-let packageWindow = null;
-let createWindow = null;
 
 /**
  * @type {Project}
@@ -21,20 +21,27 @@ let createWindow = null;
 let activeProject = null;
 let viewingPackage = null;
 
-
-
+/**
+ * Main window for the app
+ */
 function createMainWindow() {
-	mainWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/index.html`, 600, windowIcon);
-	// mainWindow.webContents.openDevTools();
+	mainWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/index.html`, windowSize, windowIcon);
+	if (debug) mainWindow.webContents.openDevTools();
 	mainWindow.on('closed', () => {
 		mainWindow = null
 	})
 }
+
+/**
+ * Open a project in a new window
+ *
+ * @param folder
+ */
 function createProjectWindow(folder) {
 	try {
 		activeProject = new Project(folder);
-		projectWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/project/project.html`, 800, windowIcon);
-		// projectWindow.webContents.openDevTools();
+		projectWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/project/project.html`, windowSize, windowIcon);
+		if (debug) projectWindow.webContents.openDevTools();
 
 		projectWindow.on('show', () => {
 			if (mainWindow !== null) {
@@ -56,36 +63,6 @@ function createProjectWindow(folder) {
 			'message': 'There is was an error parsing the composer.json'
 		});
 	}
-}
-
-function createPackageWindow(packageName) {
-	if (packageWindow !== null) {
-		packageWindow.close();
-		packageWindow = null;
-	}
-	viewingPackage = activeProject.getLock().getPackage(packageName);
-	packageWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/package/package.html`, 800, windowIcon);
-	// packageWindow.webContents.openDevTools();
-	packageWindow.on('closed', () => {
-		if (activeProject !== null) {
-			activeProject.refreshData();
-		}
-		viewingPackage = null;
-		packageWindow = null;
-	});
-}
-
-function createCreateWindow() {
-	mainWindow.close();
-	createWindow = BrowserWindowFactory.createWindow(`file://${__dirname}/src/windows/create/create.html`, 600, windowIcon);
-	// createWindow.webContents.openDevTools();
-	createWindow.on('closed', () => {
-		refreshProjectList();
-		activeProject = null;
-		projectWindow = null;
-		createWindow = null;
-		createMainWindow();
-	});
 }
 
 // This method will be called when Electron has finished
@@ -113,12 +90,21 @@ app.on('activate', function () {
 	}
 });
 
-exports.fromNewProject = function (folder) {
+/**
+ * Add a project to the ProjectsList from a chosen directory, then open that project
+ * @param folder
+ * @void
+ */
+const fromNewProject = function (folder) {
 	const composerJson = require(folder + '/composer.json');
 	projectList.addProject(folder, composerJson.name);
-	// createProjectWindow(folder);
+	createProjectWindow(folder);
 };
 
+/**
+ * Open an existing project directory
+ * @void
+ */
 const openDirectory = function () {
 	let folder = dialog.showOpenDialog(mainWindow, {
 		properties: ['openDirectory'],
@@ -140,12 +126,15 @@ const openDirectory = function () {
 		}
 	});
 };
-exports.openDirectory = openDirectory;
 
+/**
+ * Open a new window for a project
+ * @param path
+ * @void
+ */
 const openProject = function (path) {
 	createProjectWindow(path);
 };
-exports.openProject = openProject;
 
 /**
  * @returns {Project}
@@ -153,8 +142,10 @@ exports.openProject = openProject;
 const getActiveProject = () => {
 	return activeProject;
 };
-exports.getActiveProject = getActiveProject;
 
+/**
+ * @void
+ */
 const refreshProjectList = () => {
 	try {
 		projectList.refreshList();
@@ -162,17 +153,13 @@ const refreshProjectList = () => {
 		// This has issues when first run, or JSON missing.
 	}
 };
-exports.refreshProjectList = refreshProjectList;
 
+/**
+ * @returns {ProjectList}
+ */
 const getProjectList = () => {
 	return projectList;
 };
-exports.getProjectList = getProjectList;
-
-const openPackage = function (packageName) {
-	createPackageWindow(packageName);
-};
-exports.openPackage = openPackage;
 
 /**
  * @returns {Package}
@@ -180,9 +167,13 @@ exports.openPackage = openPackage;
 const getViewingPackage = () => {
 	return viewingPackage;
 };
-exports.getViewingPackage = getViewingPackage;
 
-const createProject = () => {
-	createCreateWindow();
-};
-exports.createProject = createProject;
+module.exports = {
+	openDirectory,
+	openProject,
+	getActiveProject,
+	refreshProjectList,
+	getProjectList,
+	getViewingPackage,
+	fromNewProject
+}

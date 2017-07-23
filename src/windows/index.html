@@ -5,31 +5,14 @@
 	<title>Conductor - the Composer UI</title>
 	<link href="../../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
 	<link href="../../public/css/conductor.css" rel="stylesheet" type="text/css"/>
-	<script src="../../public/js/vue.js"></script>
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+	<link href="../../node_modules/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css">
+	<script src="../../node_modules/vue/dist/vue.js"></script>
+	<script src="../../node_modules/vuetify/dist/vuetify.min.js"></script>
 </head>
 <body>
-<div id="app" class="flex flex--row" style="flex: 1">
-	<div class="flex flex--column main__landing" style="flex: 0 0 35%; padding: 0 1.25rem 1rem;">
-		<div class="flex flex--row window__main--header">
-			<!--<img src="../build/icon.svg" alt="Conductor" width="64"/>-->
-			<h1>Conductor</h1>
-		</div>
-		<div class="flex flex--column main__actions">
-			<button @click="openDirectory" id="open-project"><i class="fa fa-folder-open"></i> Existing project</button>
-			<button @click="createProject" id="create-project"><i class="fa fa-plus-circle"></i> New project</button>
-			<button @click="globalProject"><i class="fa fa-globe"></i> Global</button>
-			<button id="open-settings"><i class="fa fa-cog"></i> Settings</button>
-		</div>
-	</div>
-	<details class="flex flex--column main__projects-list" open>
-		<summary>Recent projects</summary>
-		<ul id="project-list">
-			<li v-for="(name,path) in projects">
-				<button @click="openProject(path)"><i class="fa fa-folder"></i> {{ name }}</button>
-			</li>
-		</ul>
-	</details>
-</div>
+<div id="app"></div>
 </body>
 
 <script>
