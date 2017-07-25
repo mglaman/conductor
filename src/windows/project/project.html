@@ -5,30 +5,14 @@
 	<title>Conductor - the Composer UI</title>
 	<link href="../../../node_modules/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css" />
 	<link href="../../../public/css/conductor.css" rel="stylesheet" type="text/css"/>
-	<script src="../../../public/js/vue.js"></script>
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet" type="text/css">
+	<link href="../../../node_modules/vuetify/dist/vuetify.min.css" rel="stylesheet" type="text/css">
+	<script src="../../../node_modules/vue/dist/vue.js"></script>
+	<script src="../../../node_modules/vuetify/dist/vuetify.min.js"></script>
 </head>
 <body>
-<div id="app" class="flex flex--row flex--grow">
-	<div class="flex flex--column project__sidebar" style="flex: 0 0 35%; max-width: 35%;">
-		<project-composer-files-nav
-			:project="project"></project-composer-files-nav>
-
-		<project-dependencies-nav
-			title="Requirements"
-			:dependencies="dependencies"></project-dependencies-nav>
-
-		<project-dependencies-nav
-			title="Development Requirements"
-			:dependencies="dependenciesDev"></project-dependencies-nav>
-	</div>
-	<div class="flex flex--column project__information"  style="flex: 1">
-
-		<project-details :project="project"></project-details>
-
-		<project-composer-frame
-			:project="project"></project-composer-frame>
-	</div>
-</div>
+<div id="app"></div>
 </body>
 
 <script>

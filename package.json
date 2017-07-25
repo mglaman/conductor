@@ -84,6 +84,10 @@
     "electron-config": "^0.2.1",
     "electron-is-dev": "^0.1.2",
     "electron-updater": "^1.16.0",
-    "font-awesome": "^4.6.3"
+    "font-awesome": "^4.6.3",
+    "vue": "^2.4.2",
+    "vue-router": "^2.7.0",
+    "vuetify": "^0.14.5",
+    "vuex": "^2.3.1"
   }
 }

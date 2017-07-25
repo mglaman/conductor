@@ -8,18 +8,47 @@ let activeProject = mainProcess.getActiveProject();
 
 thisWindow.setTitle(activeProject.getName());
 
-// Vue components
-require('../../components/project-details');
-require('../../components/project-dependencies-nav');
-require('../../components/project-composer-files-nav');
-require('../../components/project-composer-frame');
+const VueRouter = require('vue-router');
+const Vuetify = require('vuetify');
+const {store} = require('../../store');
 
-// Vue app
-let vm = new Vue({
-	el: '#app',
-	data: {
-		project: activeProject,
-		dependencies: activeProject.getRequire(),
-		dependenciesDev: activeProject.getRequireDev(),
-	}
+Vue.use(Vuetify);
+Vue.use(VueRouter);
+
+// Vue components
+const ProjectLayout = require('../../components/ProjectLayout');
+const ProjectDetails = require('../../components/ProjectDetails');
+const PackageDetails = require('../../components/PackageDetails');
+
+const routes = [
+	{
+		path: '/project',
+		name: 'project',
+		component: ProjectDetails
+	},
+	{
+		path: '/package/:packagePath',
+		name: 'package',
+		component: PackageDetails
+	},
+	{
+		path: '*',
+		redirect: {
+			name: 'project',
+		},
+	},
+];
+
+const router = new VueRouter({
+	routes: routes,
+	root: '/project',
+	mode: 'history',
 });
+
+
+new Vue({
+	el: '#app',
+	router: router,
+	store: store,
+	render: h => h(ProjectLayout)
+})

@@ -1,27 +1,53 @@
 'use strict';
 
-const electron = require('electron');
-const remote = electron.remote;
-const mainProcess = remote.require('./main');
-const projectList = mainProcess.getProjectList().getList();
+const VueRouter = require('vue-router');
+const Vuetify = require('vuetify');
 
-let vm = new Vue({
-	el: '#app',
-	data: {
-		projects: projectList
+Vue.use(Vuetify);
+Vue.use(VueRouter);
+
+// components
+const MainLayout = require('../components/MainLayout');
+const RecentProjects = require('../components/RecentProjects');
+const CreateProjectForm = require('../components/CreateProjectForm');
+const SettingsForm = require('../components/SettingsForm');
+
+const {store} = require('../store');
+
+const routes = [
+	{
+		path: '/recent-projects',
+		name: 'recent-projects',
+		component: RecentProjects
 	},
-	methods: {
-		openProject: (path) => {
-			mainProcess.openProject(path);
+	{
+		path: '/create-project',
+		name: 'create-project',
+		component: CreateProjectForm
+	},
+	{
+		path: '/settings',
+		name: 'settings',
+		component: SettingsForm
+	},
+	{
+		path: '*',
+		redirect: {
+			name: 'recent-projects',
 		},
-		openDirectory: () => {
-			mainProcess.openDirectory();
-		},
-		createProject: () => {
-			mainProcess.createProject();
-		},
-		globalProject: () => {
-			mainProcess.openProject(remote.app.getPath('home') + '/.composer');
-		}
-	}
+	},
+];
+
+const router = new VueRouter({
+	routes: routes,
+	root: '/recent-projects',
+	mode: 'history',
 });
+
+new Vue({
+	el: '#app',
+	router: router,
+	store: store,
+	render: h => h(MainLayout)
+})
+
