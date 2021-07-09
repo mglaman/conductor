@@ -28,6 +28,17 @@ let Project = function (path) {
 	 */
 	this.getLock = () => { return this.lock };
 
+	/**
+	 * Determine if a package is a development requirement
+	 *
+	 * @param name
+	 * @returns {boolean}
+	 */
+	this.packageIsDev = (name) => {
+		let dev = this.getRequireDev();
+		return dev.hasOwnProperty(name);
+	}
+
 	this.refreshLock = () => {
 		this.lock = null;
 		if (this.filesystem.existsSync(path + '/composer.lock')) {

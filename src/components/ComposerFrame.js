@@ -53,8 +53,43 @@ module.exports = {
 					Remove
 					<i class="fa fa-spin fa-circle-o-notch" v-if="doing == 'remove'"></i>
 				</v-btn>
-				<!--<button class="flex" id="action-composer-add">Add <i class="fa fa-spin fa-circle-o-notch hidden"></i></button>-->
 			</v-card-text>
+			
+			<v-expansion-panel expand tile flat height="0">
+				<v-expansion-panel-content>
+					<div slot="header">Add Package</div>
+					<v-container fluid v-if="type == 'project'">
+						<v-layout row>
+							<v-flex xs4>
+								<v-text-field
+									v-model="addRequirement.name"
+									label="Package Name"
+									hint="vendor/package:version"
+									persistent-hint
+									required
+								></v-text-field>
+							</v-flex>
+							<v-flex xs4>
+								<v-select
+									:items="addRequirement.requirementTypes"
+									v-model="addRequirement.type"
+									label="Requirement Type"
+									required
+									bottom
+								></v-select>
+							</v-flex>
+							<v-flex xs4>
+								<v-btn light
+									@click="composerExecute('add-requirement')">
+									Add Package
+									<i class="fa fa-spin fa-circle-o-notch" v-if="doing == 'add-requirement'"></i>
+								</v-btn>
+							</v-flex>
+						</v-layout>
+					</v-container>
+				</v-expansion-panel-content>
+			</v-expansion-panel>
+			<v-card-title v-if="composerOutLines.length">Console Output</v-card-title>
 			<div class="project__output" id="composer-output">
 				<p v-for="line in composerOutLines" :class="line.className">
 					{{ line.text }}
@@ -65,6 +100,14 @@ module.exports = {
 
 	data: function() {
 		return {
+			addRequirement: {
+				name: '',
+				type: 'require',
+				requirementTypes: [
+					{ value: 'require', text: 'Requirement' },
+					{ value: 'dev', text: 'Dev Requirement' },
+				]
+			},
 			doing: '',
 			composerOutLines: [],
 		}
@@ -114,6 +157,9 @@ module.exports = {
 						case 'validate':
 							process = composer.validate();
 							break;
+						case 'add-requirement':
+							process = composer.require(this.addRequirement.name, (this.addRequirement.type === 'dev'));
+							break;
 					}
 					break;
 
@@ -121,7 +167,8 @@ module.exports = {
 				 * Package actions
 				 */
 				case 'package':
-					composer = new Composer(mainProcess.getActiveProject().getPath());
+					activeProject = mainProcess.getActiveProject();
+					composer = new Composer(activeProject.getPath());
 
 					switch( command ){
 						// package
@@ -129,7 +176,7 @@ module.exports = {
 							process = composer.update(this.package.__get('name'));
 							break;
 						case 'remove':
-							process = composer.remove(this.package.getName());
+							process = composer.remove(this.package.getName(), activeProject.packageIsDev(this.package.getName()));
 							break;
 						case 'show':
 							process = composer.show(this.package.getName());
@@ -146,7 +193,22 @@ module.exports = {
 					switch( command ){
 						// create project
 						case 'create':
-							process = composer.createProject(this.newProjectDetails.packageName, this.newProjectDetails.destination);
+							let action = this.newProjectDetails.createAction.value;
+
+							if (action === 'create-project'){
+								process = composer.createProject(this.newProjectDetails.packageName, this.newProjectDetails.destination);
+							}
+							else if (action === 'init'){
+								// init requires that the folder already exists
+								process = composer.initProject(this.newProjectDetails.destinationFolder, {
+									name: this.newProjectDetails.packageName,
+									description: this.newProjectDetails.description,
+									author: `${this.newProjectDetails.authorName} <${this.newProjectDetails.authorEmail}>`,
+									type: this.newProjectDetails.projectType.value,
+									stability: this.newProjectDetails.stability.value,
+									license: this.newProjectDetails.license,
+								})
+							}
 							break;
 					}
 					break;
@@ -173,7 +235,14 @@ module.exports = {
 					});
 				});
 				process.on('close', (code) => {
+					let goToProject = this.doing === 'remove';
+
 					this.doing = '';
+
+					if (goToProject) {
+						this.$router.push({ name: 'project'});
+						this.$store.commit('setPageTitle', activeProject.getName());
+					}
 
 					// From project
 					if ( this.project && this.type === 'project' ){

@@ -30,12 +30,64 @@ let Composer = function(projectPath) {
 	this.show = (dependency, opts) => {
 		return this._runCommand(['show', dependency], opts);
 	};
-	this.remove = (dependency, opts) => {
-		return this._runCommand(['remove', dependency], opts);
+	this.remove = (dependency, dev = false, opts) => {
+		let command = ['remove'];
+		if (dev){
+			command.push('--dev');
+		}
+		command.push(dependency);
+		return this._runCommand(command, opts);
 	};
 	this.createProject = (project, destination, opts) => {
 		return this._runCommand(['create-project', project, destination,'--stability', 'dev', '--no-interaction'], opts)
 	};
+
+	/**
+	 * Initialize a new project within an existing folder
+	 *
+	 * @param destination String
+	 * @param project Object
+	 * @param opts Object
+	 * @returns {ChildProcess|*}
+	 */
+	this.initProject = (destination, project, opts) => {
+		let command = [
+			'init',
+			'--name', project.name,
+			'--description', project.description,
+			'--author', project.author,
+			'--type', project.type,
+			'--stability', project.stability,
+		];
+		if (project.license){
+			command.push('--license');
+			command.push(project.license);
+		}
+		command.push('--no-interaction');
+
+		opts = this._normalizeOpts(opts);
+		opts.cwd = destination;
+		return this.spawn(bin, command, opts);
+	}
+
+	/**
+	 * Add a requirement to a project
+	 *
+	 * @param requirement String
+	 * @param dev Boolean
+	 * @param opts Object
+	 * @returns {ChildProcess}
+	 */
+	this.require = (requirement, dev = false, opts) => {
+		let command = ['require'];
+		if (dev){
+			command.push('--dev');
+		}
+		command.push(requirement);
+
+		return this._runCommand(command, opts);
+	}
+
 	this._normalizeOpts = (opts) => {
 		if (typeof opts === 'undefined' || opts.length === 0) {
 			opts = {};
