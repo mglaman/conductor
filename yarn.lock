@@ -991,9 +991,9 @@ electron-updater@^1.16.0:
     source-map-support "^0.4.15"
     xelement "^1.0.14"
 
-electron@^9.4.0:
-  version "9.4.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-9.4.0.tgz#c3c607e3598226ddbaaff8babcdffa8bb2210936"
+electron@^11.5.0:
+  version "11.5.0"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-11.5.0.tgz#f1650543b9d8f2047d3807755bdb120153ed210f"
   dependencies:
     "@electron/get" "^1.0.1"
     "@types/node" "^12.0.12"
