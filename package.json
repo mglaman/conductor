@@ -71,7 +71,7 @@
     "chai-as-promised": "^6.0.0",
     "electron": "^9.4.0",
     "electron-builder": "^7.14.2",
-    "grunt": "^1.0.1",
+    "grunt": "^1.5.3",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-sass": "^1.0.0",
